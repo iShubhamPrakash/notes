@@ -1,0 +1,150 @@
+body
+  font: 16px "Arial", Arial
+  line-height: 1.1em
+  font-weight: normal
+  margin: 0
+  padding: 0
+  letter-spacing: .4px
+
+  *
+    margin: 0
+    letter-spacing: .4px
+
+a:focus, input:focus, button:focus, textarea:focus
+  outline: none
+
+.notes-component-container
+  // background: yellow
+  width: 100%
+  max-width: 1150px
+  height: 100%
+  padding: 1em
+  margin-left: auto
+  margin-right: auto
+  position: relative
+
+.search-container
+  background: #f9f9f9
+  padding: 4px
+  width: 100%
+  max-width: 600px
+  margin-left: auto
+  margin-right: auto
+  display: flex
+  align-items: center
+  border-radius: 8px
+  margin-bottom: 1.5em 
+
+  .notes-search-icon,
+  .notes-search-clear-icon
+    width: 30px
+    height: 30px
+    font-size: 1.1em
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 100% !important
+    color: lightgray
+    &:hover
+      color: gray
+      background: #E2E5E6
+    &:active
+      background: lightgray
+
+  .notes-search
+    height: 32px
+    border: none
+    padding: 8px
+    flex-grow: 1
+    background: #f9f9f9
+    
+.tool-container
+  display: flex
+  justify-content: space-evenly
+  padding: 8px 4px
+  width: 90%
+  margin-left: auto
+  margin-right: auto
+  // background: yellow
+  // opacity: 0
+
+  .tool
+    color: gray
+    font-size: 12px
+    border-radius: 25px
+    padding: 0.25em 1em
+    font-weight: normal
+    background: transparent
+  
+    
+
+.notes-container
+  
+
+  .note
+    // background: pink
+    padding: 1em
+    margin: 8px 0
+    border-radius: 8px
+    border: 0.8px solid lightgray
+    transition: all 0.2s
+    padding-bottom: 0px
+
+    &:hover
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
+
+
+.active-note-container
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
+  border-radius: 8px !important
+  margin-bottom: 0.6em
+  max-width: 600px
+  margin-left: auto
+  margin-right: auto
+
+.note-title
+  width: 100%
+  padding: 10px 16px 0
+  font-size: 18px
+  border: none
+  border-radius: 8px  
+
+.note-tool-container
+  display: flex
+  justify-content: space-evenly
+  width: 90%
+  margin-left: auto
+  margin-right: auto
+  transition: all 0.5s
+  opacity: 0
+
+  &:hover
+    opacity: 1
+
+  .note-tool
+    // background: yellow
+    color: lightgray
+    font-size: 1em
+    font-weight: normal
+    padding: 0.25em 0.5em
+    // opacity: 0
+    &:hover
+      color: gray
+
+.note-text-bottom
+  &:hover + .note-tool-container
+    opacity: 1
+
+.saved-note-header
+  // background: yellow
+  text-align: left
+  margin-top: 3em
+  
+
+  small
+    color: gray
+    padding: 0.5em 1em
+    border-radius: 25px
+    
+
+      
