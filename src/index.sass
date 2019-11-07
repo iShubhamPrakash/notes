@@ -13,12 +13,75 @@ body
 a:focus, input:focus, button:focus, textarea:focus
   outline: none
 
+.header
+  display: flex
+  flex-wrap: nowrap
+  justify-content: center
+  align-items: center
+  align-content: space-between
+  position: absolute
+  width: 100%
+  top: 6px
+  z-index: 1
+  @media (max-width: 1150px)
+    position: relative
+
+.logo
+  padding: 4px 16px
+  font-size: 1.3em
+  color: gray
+  h1
+    font-size: 1.3em
+    color: gray
+    display: inline
+    padding: 0 8px
+    font-weight: bold
+
+small
+  font-size: 10px
+  white-space: nowrap
+  a
+    color: lightgray
+    cursor: pointer
+    &:hover
+      color: gray
+      text-decoration: none
+
+  @media (max-width: 415px)
+    display: none
+
+
+.social
+  align-self: center
+  height: 100%
+  font-size: 1.4em
+  padding: 0.2em
+
+  a
+    margin: 0 6px
+
+.github
+  color: #2e3c49
+
+.linkedin
+  color: #0077b5
+
+.twitter
+  color: #1da1f3
+
+.globe
+  color: #dc4538
+
+
+.streatch
+  flex-grow: 2
+
 .notes-component-container
-  // background: yellow
   width: 100%
   max-width: 1150px
   height: 100%
   padding: 1em
+  padding-top: 13px 
   margin-left: auto
   margin-right: auto
   position: relative
@@ -33,7 +96,9 @@ a:focus, input:focus, button:focus, textarea:focus
   display: flex
   align-items: center
   border-radius: 8px
-  margin-bottom: 1.5em 
+  margin-bottom: 3.5em 
+  position: relative
+  z-index: 99
 
   .notes-search-icon,
   .notes-search-clear-icon
