@@ -73,7 +73,6 @@ class Notes extends Component {
           pinned:true,
         },
       ],
-
       title:"",
       text: "",
 
@@ -88,7 +87,7 @@ class Notes extends Component {
   }
 
   componentDidMount() {
-    //Replcae link in placeholder to listiee.com
+    //Replace link in placeholder to listiee.com
     document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://listiee.com");
     this.calculateNoteCount();
   }
@@ -132,10 +131,27 @@ class Notes extends Component {
   }
 
   handlePin=(e, i,noteId) => {
-
+    this.setState(prevState => {
+      let { notes } = prevState;
+      notes = notes.map(note => {
+        if (note.noteId === noteId) {
+          note.pinned = true;
+        }
+      });
+      return ({ notes });
+    });
   }
-  handleUnpin=(e, i,noteId) => {
 
+  handleUnpin=(e, i,noteId) => {
+    this.setState(prevState => {
+      let { notes } = prevState;
+      notes = notes.map(note => {
+        if (note.noteId === noteId) {
+          note.pinned = false;
+        }
+      });
+      return ({ notes });
+    });
   }
 
   renderNotes = () => {
@@ -167,10 +183,11 @@ class Notes extends Component {
 
   renderPinnedNotes = () => {
     let { notes } = this.state;
+    console.log("pin:", notes.length);
     return notes.map((note, i) => {
       if(note.pinned===true)
       return (
-        <div className={this.state.viewClass[this.state.viewIndex]} key={note.noteId}>
+        <div className={this.state.viewClass[this.state.viewIndexPinned]} key={note.noteId}>
           <div className="note">
             <div className="note-title note-title-bottom">{note.title}</div>
             <ReactQuill
@@ -215,18 +232,16 @@ class Notes extends Component {
     const noteId = uuid();
 
     let newNote = {
-      title, text, noteId
+      title, text, noteId, pinned:false,
     };
 
-    // console.log(newNote);
+    console.log(newNote);
 
     this.setState({
       notes: [newNote,...this.state.notes],
       title: "",
       text: "",
-      pinned:false,
     })
-
   }
 
   handleKeyPress = e => {
@@ -261,6 +276,7 @@ class Notes extends Component {
       index++;
     this.setState({ viewIndex: index})
   }
+
   handleViewChangePinned = () => {
     let index=this.state.viewIndexPinned;
     if (index === 2)
@@ -271,6 +287,7 @@ class Notes extends Component {
   }
 
   render() {
+    console.log("Render called...")
     return (
       <div className="container">
         <div className="notes-component-container">
@@ -324,7 +341,7 @@ class Notes extends Component {
                     <div className="saved-note-header">
                       <small>PINNED: <span className="note-count">{this.state.pinnedCount}</span></small>
                       <div className="stretch"></div>
-                      <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChangePinned}><i className={this.state.viewBtnClass[this.state.viewIndex]}/></button>
+                      <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChangePinned}><i className={this.state.viewBtnClass[this.state.viewIndexPinned]}/></button>
                     </div>  
                     </div>
                   </div>
