@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 // import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
+import uuid from 'uuid/v1'
 
 
 
@@ -25,77 +26,148 @@ class Notes extends Component {
         {
           title: "Note 1",
           text: '<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</h1><p><br></p><h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</h2><p><br></p><blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</blockquote><p><br></p><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</strong></p><p><br></p><p><em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</em></p><p><br></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p><br></p><p><a href="http://localhost:3000/www.google.com" rel="noopener noreferrer" target="_blank">www.google.com</a></p><p><br></p><p>shubham prakash</p>',
-          noteId: "",
-          listId: "",
-          tags: [],
-          category: "",
+          noteId: "decfb430-01d4-11ea-9dd9-195e9663b7e2",
+          pinned:false,
         },
         {
           title: "Note 2",
           text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "",
-          listId: "",
-          tags: [],
-          category: "",
-        },
-        {
-          title: "Note 3",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "",
-          listId: "",
-          tags: [],
-          category: "",
-        },
-        {
-          title: "Note 4",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "",
-          listId: "",
-          tags: [],
-          category: "",
+          noteId: "f06a3c10-01d4-11ea-9dd9-195e9663b7e2",
+          pinned:false,
         },
         {
           title: "Note 5",
           text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "",
-          listId: "",
-          tags: [],
-          category: "",
+          noteId: "0f3980b0-01d5-11ea-9dd9-195e9663b7e2",
+          pinned:true,
+        },
+        {
+          title: "Note 3",
+          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+          noteId: "fbd49910-01d4-11ea-9dd9-195e9663b7d2",
+          pinned:false,
+        },
+        {
+          title: "Note 3",
+          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+          noteId: "fbd49910-01d4-11ea-9dd9-195e9663b7e2",
+          pinned:true,
+        },
+        {
+          title: "Note 4",
+          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+          noteId: "065dbdd0-01d5-11ea-9dd9-195e9663b7e2",
+          pinned:false,
+        },
+        {
+          title: "Note 5",
+          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+          noteId: "0f3980b0-01d5-11ea-9dd9-195e9663d7e2",
+          pinned:false,
+        },
+        {
+          title: "Note 4",
+          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+          noteId: "065dbdd0-01d5-11ea-9dd9-195e9663bse2",
+          pinned:true,
         },
       ],
+
       title:"",
       text: "",
-      noteId: null,
-      listId: null,
+
       theme: "bubble",
-      
       viewClass: ["col col-12 col-md-6 col-lg-4","col col-12 col-md-6","col col-12"],
       viewBtnClass: ["fas fa-th","fas fa-th-large","fas fa-bars"],
       viewIndex:0,
+      viewIndexPinned: 0,
+      pinnedCount: 0,
+      savedCount:0,
     }
   }
 
   componentDidMount() {
     //Replcae link in placeholder to listiee.com
     document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://listiee.com");
+    this.calculateNoteCount();
   }
 
-  handleEdit = (e, i) => {
-    let editor = document.querySelector("#editor" + i);
-    editor.setAttribute("readOnly", false);
-    console.log(editor);
+  componentDidUpdate() {
+    // this.calculateNoteCount();
+  }
+
+  calculateNoteCount = () => {
+    let { notes } = this.state;
+    let savedCount = notes.length;
+    let pinnedCount = 0;
+
+    notes.map(note => {
+      if (note.pinned === true)
+        pinnedCount++;  
+    })
+    savedCount = savedCount - pinnedCount;
+    console.log("savedCount-", savedCount, "PinnedCount-", pinnedCount);
+    this.setState({ pinnedCount, savedCount });
+  }
+
+  handleEdit = (e, i,noteId) => {
+    // let editor = document.querySelector("#editor" + i);
+    // editor.setAttribute("readOnly", false);
+    // console.log(editor);
 
     // editor.readOnly(false);
 
   }
 
+  handleDelete = (e, i, noteId) => {
+    if (window.confirm("Delete this note?")) {
+      this.setState(prevState => {
+        let { notes } = prevState;
+        notes = notes.filter(note => note.noteId !== noteId);
+        return ({ notes });
+      });
+    }
+  }
+  handlePin=(e, i,noteId) => {
+
+  }
+  handleUnpin=(e, i,noteId) => {
+
+  }
+
   renderNotes = () => {
     let { notes } = this.state;
-    
+    return notes.map((note, i) => {
+      if (note.pinned === false) {
+        return (
+          <div className={this.state.viewClass[this.state.viewIndex]} key={note.noteId}>
+            <div className="note">
+              <div className="note-title note-title-bottom">{note.title}</div>
+              <ReactQuill
+                value={note.text}
+                readOnly={true}
+                theme={"bubble"}
+                className="note-text note-text-bottom"
+                id={note.noteId}
+              />
+              <div className="note-tool-container">
+                <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
+                <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
+                <span className="note-tool btn" title="pin note" onClick={e=>this.handlePin(e,i,note.noteId)}><i className="fas fa-thumbtack"/></span>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    })
+  }
 
-    return notes.map((note,i) => {
+  renderPinnedNotes = () => {
+    let { notes } = this.state;
+    return notes.map((note, i) => {
+      if(note.pinned===true)
       return (
-        <div className={this.state.viewClass[this.state.viewIndex]}>
+        <div className={this.state.viewClass[this.state.viewIndex]} key={note.noteId}>
           <div className="note">
             <div className="note-title note-title-bottom">{note.title}</div>
             <ReactQuill
@@ -103,13 +175,12 @@ class Notes extends Component {
               readOnly={true}
               theme={"bubble"}
               className="note-text note-text-bottom"
-              id={"editor" + i}
-              key={i}
+              id={note.noteId}
             />
             <div className="note-tool-container">
-              <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i)}><i className="fas fa-pen"/></span>
-              <span className="note-tool btn" title="delete"><i className="far fa-trash-alt" /></span>
-              <span className="note-tool btn" title="setting"><i className="fas fa-cog"/></span>
+              <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
+              <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
+              <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(e,i,note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>
             </div>
           </div>
         </div>
@@ -126,7 +197,6 @@ class Notes extends Component {
   }
   
   saveNote = (e) => {
-    let {tags, category } = this.state;
     let title = this.state.title.trim();
     let text = this.state.text.trim();
 
@@ -139,16 +209,19 @@ class Notes extends Component {
       return;
     }
 
+    const noteId = uuid();
+
     let newNote = {
-      title, text, tags, category
+      title, text, noteId
     };
+
+    // console.log(newNote);
 
     this.setState({
       notes: [newNote,...this.state.notes],
       title: "",
       text: "",
-      tags: [],
-      category:"",
+      pinned:false,
     })
 
   }
@@ -167,12 +240,14 @@ class Notes extends Component {
   }
 
   clearEditorContent = e => {
-    this.setState({
-      title: "",
-      text: "",
-      tags: [],
-      category:"",
-    })
+    if (window.confirm("Delete this note?")) { 
+      this.setState({
+        title: "",
+        text: "",
+        tags: [],
+        category:"",
+      })
+    }
   }
 
   handleViewChange = () => {
@@ -182,6 +257,14 @@ class Notes extends Component {
     else
       index++;
     this.setState({ viewIndex: index})
+  }
+  handleViewChangePinned = () => {
+    let index=this.state.viewIndexPinned;
+    if (index === 2)
+      index = 0
+    else
+      index++;
+    this.setState({ viewIndexPinned: index})
   }
 
   render() {
@@ -228,13 +311,28 @@ class Notes extends Component {
                   />
                   <div className="tool-container">
                     <button className="tool btn" onClick={this.saveNote}><i className="far fa-check-circle"/>{" "}Save</button>
-                    <button className="tool btn" onClick={this.clearEditorContent}><i className="far fa-trash-alt" />{" "}Clear</button>
-                    <button className="tool btn"><i className="fas fa-cog"/>{" "}Setting</button>
+                    <button className="tool btn" onClick={this.clearEditorContent}><i className="fas fa-times" />{" "}Cancel</button>
+                    {/* <button className="tool btn"><i className="fas fa-cog"/>{" "}Setting</button> */}
                   </div>
                 </div>
                 
+                {this.state.pinnedCount> 0 ?
+                  <div>
+                    <div className="saved-note-header">
+                      <small>PINNED: <span className="note-count">{this.state.pinnedCount}</span></small>
+                      <div className="stretch"></div>
+                      <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChangePinned}><i className={this.state.viewBtnClass[this.state.viewIndex]}/></button>
+                    </div>  
+                    </div>
+                  </div>
+                  : null}
+                
+                  <div className="row">
+                    {this.renderPinnedNotes()}
+                  </div>
+
                 <div className="saved-note-header">
-                  <small>SAVED</small>
+                  <small>SAVED: <span className="note-count">{this.state.savedCount}</span></small>
                   <div className="stretch"></div>
                   <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChange}><i className={this.state.viewBtnClass[this.state.viewIndex]}/></button>
                 </div>  
@@ -242,6 +340,7 @@ class Notes extends Component {
                 <div className="row">
                   {this.renderNotes()}
                 </div>
+
               </div>
             </div>
           </div>
