@@ -102,14 +102,12 @@ class Notes extends Component {
         pinnedCount++;  
     })
     savedCount = savedCount - pinnedCount;
-    console.log("savedCount-", savedCount, "PinnedCount-", pinnedCount);
     this.setState({ pinnedCount, savedCount });
   }
 
   handleEdit = (e, i,noteId) => {
     // let editor = document.querySelector("#editor" + i);
     // editor.setAttribute("readOnly", false);
-    // console.log(editor);
 
     // editor.readOnly(false);
 
@@ -130,31 +128,45 @@ class Notes extends Component {
     });
   }
 
-  handlePin=(e, i,noteId) => {
-    this.setState(prevState => {
+  handlePin=async (e, i,noteId) => {
+    await this.setState(prevState => {
       let { notes } = prevState;
-      notes = notes.map(note => {
-        if (note.noteId === noteId) {
-          note.pinned = true;
+      let modifitedNote;
+      let newNotes = notes.filter(note => {
+        if (note.noteId !== noteId) {
+          return true;
+        } else {
+          modifitedNote = note;
+          modifitedNote.pinned = true;
+          return false;
         }
       });
-      return ({ notes });
+      return ({ notes: [modifitedNote, ...newNotes] });
     });
+
+    this.calculateNoteCount();
   }
 
-  handleUnpin=(e, i,noteId) => {
-    this.setState(prevState => {
+  handleUnpin=async (e, i,noteId) => {
+    await this.setState(prevState => {
       let { notes } = prevState;
-      notes = notes.map(note => {
-        if (note.noteId === noteId) {
-          note.pinned = false;
+      let modifitedNote;
+      let newNotes = notes.filter(note => {
+        if (note.noteId !== noteId) {
+          return true;
+        } else {
+          modifitedNote = note;
+          modifitedNote.pinned = false;
+          return false;
         }
       });
-      return ({ notes });
+      return ({ notes: [modifitedNote, ...newNotes] });
     });
+
+    this.calculateNoteCount();
   }
 
-  renderNotes = () => {
+  renderSavedNotes = () => {
     let { notes } = this.state;
     return notes.map((note, i) => {
       if (note.pinned === false) {
@@ -183,7 +195,6 @@ class Notes extends Component {
 
   renderPinnedNotes = () => {
     let { notes } = this.state;
-    console.log("pin:", notes.length);
     return notes.map((note, i) => {
       if(note.pinned===true)
       return (
@@ -216,7 +227,7 @@ class Notes extends Component {
     this.setState({ text });
   }
   
-  saveNote = (e) => {
+  saveNote = async (e) => {
     let title = this.state.title.trim();
     let text = this.state.text.trim();
 
@@ -235,13 +246,13 @@ class Notes extends Component {
       title, text, noteId, pinned:false,
     };
 
-    console.log(newNote);
-
-    this.setState({
-      notes: [newNote,...this.state.notes],
+    await this.setState({
+      notes: [newNote, ...this.state.notes],
       title: "",
       text: "",
-    })
+    });
+
+    this.calculateNoteCount();
   }
 
   handleKeyPress = e => {
@@ -252,7 +263,6 @@ class Notes extends Component {
 
   handleFocousNext = (e) => {
     if (e.key === "Enter") {
-      // console.log(e.key);
       this.refs.quill.focus();
     }
   }
@@ -287,7 +297,6 @@ class Notes extends Component {
   }
 
   render() {
-    console.log("Render called...")
     return (
       <div className="container">
         <div className="notes-component-container">
@@ -358,7 +367,7 @@ class Notes extends Component {
                 </div>  
                 </div>
                 <div className="row">
-                  {this.renderNotes()}
+                  {this.renderSavedNotes()}
                 </div>
 
               </div>
