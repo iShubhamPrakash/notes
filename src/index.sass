@@ -39,9 +39,10 @@ a:focus, input:focus, button:focus, textarea:focus
     font-family: 'Yeon Sung', cursive;
 
 .logo-img
-  width: 37px
+  width: 36px
 
-small
+
+.logo-author
   font-size: 11px
   white-space: nowrap
   font-family: 'Yeon Sung', cursive;
@@ -62,9 +63,12 @@ small
   height: 100%
   font-size: 1.4em
   padding: 0.2em
-
   a
     margin: 0 6px
+    opacity: 0.65
+    transition: all 0.4s
+    &:hover
+      opacity: 1
 
 .github
   color: #2e3c49
@@ -79,8 +83,29 @@ small
   color: #dc4538
 
 
-.streatch
+.stretch
   flex-grow: 2
+
+.view-btn
+  button
+    background: transparent
+    border: none
+    color: lightgray
+    position: relative
+    top: 3.5px
+    left: -6px  
+    &:hover
+      color: #FFE98F 
+    &:active
+      color: #FFDA44
+
+  @media (max-width: 768px)
+    display: none
+
+
+
+
+
 
 .notes-component-container
   width: 100%
@@ -210,12 +235,14 @@ small
   // background: yellow
   text-align: left
   margin-top: 3em
+  display: flex
   
 
   small
     color: gray
     padding: 0.5em 1em
     border-radius: 25px
+    font-size: 13px
     
 
       

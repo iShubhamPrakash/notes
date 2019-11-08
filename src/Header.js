@@ -3,9 +3,9 @@ import React from 'react'
 export default function Header() {
   return (
   <div className="header">
-    <span className="logo"><img className="logo-img" src="/assets/note-icon.svg"/> <h1>Notes</h1><small><a href="https://shubhamprakash.me" rel="noopener noreferrer" target="_blank">By Shubham Prakash</a></small></span>
-    <div className="streatch"></div>
-    <div className="social">
+    <span className="logo"><img className="logo-img" src="/assets/note-icon.svg"/> <h1>Notes</h1><small className="logo-author"><a href="https://shubhamprakash.me" rel="noopener noreferrer" target="_blank">By Shubham Prakash</a></small></span>
+    <div className="stretch"></div>
+    <div className="social" title="Contact developer">
       <a href="https://linkedin.com/in/ishubhamprakash/" rel="noopener noreferrer" target="_blank">
       <i className="fab fa-linkedin-in linkedin"></i>
       </a>

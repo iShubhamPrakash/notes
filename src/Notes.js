@@ -67,7 +67,11 @@ class Notes extends Component {
       text: "",
       noteId: null,
       listId: null,
-      theme:"bubble",
+      theme: "bubble",
+      
+      viewClass: ["col col-12 col-md-6 col-lg-4","col col-12 col-md-6","col col-12"],
+      viewBtnClass: ["fas fa-th","fas fa-th-large","fas fa-bars"],
+      viewIndex:0,
     }
   }
 
@@ -91,7 +95,7 @@ class Notes extends Component {
 
     return notes.map((note,i) => {
       return (
-        <div className="col col-12 col-md-6 col-lg-4">
+        <div className={this.state.viewClass[this.state.viewIndex]}>
           <div className="note">
             <div className="note-title note-title-bottom">{note.title}</div>
             <ReactQuill
@@ -171,6 +175,15 @@ class Notes extends Component {
     })
   }
 
+  handleViewChange = () => {
+    let index=this.state.viewIndex;
+    if (index === 2)
+      index = 0
+    else
+      index++;
+    this.setState({ viewIndex: index})
+  }
+
   render() {
     return (
       <div className="container">
@@ -222,6 +235,9 @@ class Notes extends Component {
                 
                 <div className="saved-note-header">
                   <small>SAVED</small>
+                  <div className="stretch"></div>
+                  <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChange}><i className={this.state.viewBtnClass[this.state.viewIndex]}/></button>
+                </div>  
                 </div>
                 <div className="row">
                   {this.renderNotes()}
