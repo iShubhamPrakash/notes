@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 // import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import uuid from 'uuid/v1'
+import { timeout } from 'q';
 
 
 
@@ -92,10 +93,6 @@ class Notes extends Component {
     this.calculateNoteCount();
   }
 
-  componentDidUpdate() {
-    // this.calculateNoteCount();
-  }
-
   calculateNoteCount = () => {
     let { notes } = this.state;
     let savedCount = notes.length;
@@ -119,15 +116,21 @@ class Notes extends Component {
 
   }
 
-  handleDelete = (e, i, noteId) => {
+  handleDelete = async (e, i, noteId) => {
     if (window.confirm("Delete this note?")) {
-      this.setState(prevState => {
-        let { notes } = prevState;
-        notes = notes.filter(note => note.noteId !== noteId);
-        return ({ notes });
-      });
+      await this.deleteNote(e, i, noteId);
+      this.calculateNoteCount();
     }
   }
+
+  deleteNote = async (e, i, noteId) => {
+    this.setState(prevState => {
+      let { notes } = prevState;
+      notes = notes.filter(note => note.noteId !== noteId);
+      return ({ notes });
+    });
+  }
+
   handlePin=(e, i,noteId) => {
 
   }
