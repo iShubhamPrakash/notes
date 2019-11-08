@@ -180,22 +180,18 @@ a:focus, input:focus, button:focus, textarea:focus
     font-weight: normal
     background: transparent
   
-    
 
-.notes-container
-  
+.note
+  // background: pink
+  padding: 1em
+  margin: 8px 0
+  border-radius: 8px
+  border: 0.8px solid lightgray
+  transition: all 0.2s
+  padding-bottom: 0px
 
-  .note
-    // background: pink
-    padding: 1em
-    margin: 8px 0
-    border-radius: 8px
-    border: 0.8px solid lightgray
-    transition: all 0.2s
-    padding-bottom: 0px
-
-    &:hover
-      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
+  &:hover
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
 
 
 .active-note-container
@@ -254,3 +250,6 @@ a:focus, input:focus, button:focus, textarea:focus
     
 
       
+.search-reasult-header
+  color: gray
+  margin-bottom: 1em

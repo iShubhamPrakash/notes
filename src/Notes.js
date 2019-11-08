@@ -82,13 +82,15 @@ class Notes extends Component {
       viewIndex:0,
       viewIndexPinned: 0,
       pinnedCount: 0,
-      savedCount:0,
+      savedCount: 0,
+      isSearching: false,
     }
   }
 
   componentDidMount() {
     //Replace link in placeholder to listiee.com
-    document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://listiee.com");
+    if(document.querySelector('.ql-tooltip-editor input'))
+      document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://listiee.com");
     this.calculateNoteCount();
   }
 
@@ -145,7 +147,8 @@ class Notes extends Component {
     });
 
     this.calculateNoteCount();
-    document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
+    if(document.querySelector(".pinnedNotes"))
+      document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
   }
 
   handleUnpin=async (e, i,noteId) => {
@@ -219,6 +222,32 @@ class Notes extends Component {
       )
     })
   }
+  renderSearchedNotes = () => {
+
+    //TODO: Implement properly
+    let { notes } = this.state;
+    return notes.map((note, i) => {
+      return (
+        <div className={this.state.viewClass[this.state.viewIndexPinned]} key={note.noteId}>
+          <div className="note">
+            <div className="note-title note-title-bottom">{note.title}</div>
+            <ReactQuill
+              value={note.text}
+              readOnly={true}
+              theme={"bubble"}
+              className="note-text note-text-bottom"
+              id={note.noteId}
+            />
+            <div className="note-tool-container">
+              <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
+              <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
+              <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(e,i,note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>
+            </div>
+          </div>
+        </div>
+      )
+    })
+  }
 
   handleTitleChange = (e) => {
     this.setState({ title: e.target.value });
@@ -254,7 +283,8 @@ class Notes extends Component {
     });
 
     this.calculateNoteCount();
-    document.querySelector(".saveNotes").scrollIntoView({ behavior: 'smooth' });
+    if(document.querySelector(".saveNotes"))
+      document.querySelector(".saveNotes").scrollIntoView({ behavior: 'smooth' });
   }
 
   handleKeyPress = e => {
@@ -298,28 +328,45 @@ class Notes extends Component {
     this.setState({ viewIndexPinned: index})
   }
 
+  handleStartSearch = () => {
+    this.setState({ isSearching: true });  
+  }
+
+  handleClearSearch = () => {
+    this.setState({ isSearching: false });  
+  }
+
   render() {
+    const { isSearching } = this.state;
     return (
       <div className="container">
         <div className="notes-component-container">
           <div className="row">
             <div className="col col-12">
-              <div className="search-container">
-                <div className="notes-search-icon">
-                  <i className="fas fa-search"/>
-                </div>
-                <input
-                  type="text"
-                  className="notes-search"
-                  placeholder="Search"
-                  name="search"
-                  onKeyPress={this.handleKeyPress}
-                />
-                <div className="notes-search-clear-icon">
-                  <i className="fas fa-times"/>
+                <div className="search-container">
+                  <div className="notes-search-icon" onClick={this.handleStartSearch}>
+                    <i className="fas fa-search"/>
+                  </div>
+                  <input
+                    type="text"
+                    className="notes-search"
+                    placeholder="Search"
+                    name="search"
+                    onKeyPress={this.handleKeyPress}
+                  />
+                  <div className="notes-search-clear-icon" onClick={this.handleClearSearch}>
+                    <i className="fas fa-times"/>
+                  </div>
                 </div>
               </div>
-            </div>
+          {isSearching ?
+              <div className="row">
+                <div className="col col-12">
+                  <p className="search-reasult-header"><i className="fas fa-search" /> {" "}Search results:</p>
+                  {this.renderSearchedNotes()}
+                </div>
+              </div>
+               :
             <div className="col col-12">
               <div className="notes-container">
                 <div className="active-note-container">
@@ -332,6 +379,7 @@ class Notes extends Component {
                     onChange={this.handleTitleChange}
                     onKeyPress={this.handleKeyPress}
                     autoFocus={true}
+                    autoComplete="off"
                   />
                   <ReactQuill
                     value={this.state.text}
@@ -365,16 +413,21 @@ class Notes extends Component {
                 <div className="saved-note-header saveNotes">
                   <small>SAVED: <span className="note-count">{this.state.savedCount}</span></small>
                   <div className="stretch"></div>
-                  <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChange}><i className={this.state.viewBtnClass[this.state.viewIndex]}/></button>
-                </div>  
-                </div>
+                    <div className="view-btn">
+                      <small>View:</small>
+                      <button type="button" title="Click to change view" onClick={this.handleViewChange}>
+                        <i className={this.state.viewBtnClass[this.state.viewIndex]} />
+                      </button>
+                    </div>  
+                  </div>
                 <div className="row">
                   {this.renderSavedNotes()}
                 </div>
 
               </div>
             </div>
-          </div>
+            }
+            </div>
         </div>
       </div>
     )
