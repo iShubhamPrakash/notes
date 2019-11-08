@@ -145,6 +145,7 @@ class Notes extends Component {
     });
 
     this.calculateNoteCount();
+    document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
   }
 
   handleUnpin=async (e, i,noteId) => {
@@ -253,6 +254,7 @@ class Notes extends Component {
     });
 
     this.calculateNoteCount();
+    document.querySelector(".saveNotes").scrollIntoView({ behavior: 'smooth' });
   }
 
   handleKeyPress = e => {
@@ -347,7 +349,7 @@ class Notes extends Component {
                 
                 {this.state.pinnedCount> 0 ?
                   <div>
-                    <div className="saved-note-header">
+                    <div className="saved-note-header pinnedNotes">
                       <small>PINNED: <span className="note-count">{this.state.pinnedCount}</span></small>
                       <div className="stretch"></div>
                       <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChangePinned}><i className={this.state.viewBtnClass[this.state.viewIndexPinned]}/></button>
@@ -360,7 +362,7 @@ class Notes extends Component {
                     {this.renderPinnedNotes()}
                   </div>
 
-                <div className="saved-note-header">
+                <div className="saved-note-header saveNotes">
                   <small>SAVED: <span className="note-count">{this.state.savedCount}</span></small>
                   <div className="stretch"></div>
                   <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChange}><i className={this.state.viewBtnClass[this.state.viewIndex]}/></button>
