@@ -187,7 +187,7 @@ a:focus, input:focus, button:focus, textarea:focus
   margin: 8px 0
   border-radius: 8px
   border: 0.8px solid lightgray
-  transition: all 0.2s
+  transition: all 0.5s
   padding-bottom: 0px
 
   &:hover
@@ -209,27 +209,37 @@ a:focus, input:focus, button:focus, textarea:focus
   border: none
   border-radius: 8px  
 
-.note-tool-container
+.note-tool-container,
+.note-tool-container-edit
   display: flex
   justify-content: space-evenly
   width: 90%
   margin-left: auto
   margin-right: auto
   transition: all 0.5s
+  
+.note-tool-container
   opacity: 0
-
   &:hover
     opacity: 1
 
-  .note-tool
-    // background: yellow
-    color: lightgray
+.note-tool-container-edit
+  opacity: 1
+  span
+    color: gray
     font-size: 1em
     font-weight: normal
-    padding: 0.25em 0.5em
-    // opacity: 0
+    padding: 0.25em
     &:hover
-      color: gray
+      color: green
+
+.note-tool
+  color: lightgray
+  font-size: 1em
+  font-weight: normal
+  padding: 0.25em 0.5em
+  &:hover
+    color: gray
 
 .note-text-bottom
   &:hover + .note-tool-container

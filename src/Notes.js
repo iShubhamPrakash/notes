@@ -84,6 +84,7 @@ class Notes extends Component {
       pinnedCount: 0,
       savedCount: 0,
       isSearching: false,
+      editableNoteId: null,
     }
   }
 
@@ -108,11 +109,17 @@ class Notes extends Component {
   }
 
   handleEdit = (e, i,noteId) => {
-    // let editor = document.querySelector("#editor" + i);
-    // editor.setAttribute("readOnly", false);
+    if (this.state.editableNoteId === null) {
+      this.setState({editableNoteId:noteId})
+    } else {
+      alert("Please save the current note...");
+    }
+  }
 
-    // editor.readOnly(false);
-
+  handleDoneEdit = (e, i,noteId) => {
+    if (this.state.editableNoteId !== null) {
+      this.setState({ editableNoteId: null });
+    }
   }
 
   handleDelete = async (e, i, noteId) => {
@@ -174,22 +181,31 @@ class Notes extends Component {
     let { notes } = this.state;
     return notes.map((note, i) => {
       if (note.pinned === false) {
+        let editMode = this.state.editableNoteId === note.noteId ? true : false;
         return (
           <div className={this.state.viewClass[this.state.viewIndex]} key={note.noteId}>
-            <div className="note">
-              <div className="note-title note-title-bottom">{note.title}</div>
+            <div className="note" style={editMode ? { border: "1px solid #1f97d3",boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px" }:null}>
+              {editMode ?
+                <input className="note-title note-title-bottom" type="text" value={note.title}/>
+                :<div className="note-title note-title-bottom">{note.title}</div>}
               <ReactQuill
                 value={note.text}
-                readOnly={true}
+                readOnly={!editMode}
                 theme={"bubble"}
                 className="note-text note-text-bottom"
                 id={note.noteId}
               />
-              <div className="note-tool-container">
-                <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
-                <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
-                <span className="note-tool btn" title="pin note" onClick={e=>this.handlePin(e,i,note.noteId)}><i className="fas fa-thumbtack"/></span>
-              </div>
+              
+              { !editMode ?
+                <div className="note-tool-container">
+                  <span className="note-tool btn" title="edit" onClick={e => this.handleEdit(e, i, note.noteId)}><i className="fas fa-pen" /></span>
+                  <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
+                  <span className="note-tool btn" title="pin note" onClick={e=>this.handlePin(e,i,note.noteId)}><i className="fas fa-thumbtack"/></span>
+                </div> :
+                <div className="note-tool-container-edit" style={{opacity:"1"}}>
+                  <span className="btn" title="done" onClick={e => this.handleDoneEdit(e, i, note.noteId)}><i className="far fa-check-circle" />{" "} Done</span>
+                </div>
+              }
             </div>
           </div>
         )
