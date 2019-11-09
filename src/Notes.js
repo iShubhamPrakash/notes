@@ -77,7 +77,7 @@ class Notes extends Component {
       text: "",
 
       theme: "bubble",
-      viewClass: ["col col-12 col-md-6 col-lg-4","col col-12 col-md-6","col col-12"],
+      viewClass: ["custom-row custom-row-3","custom-row custom-row-2","custom-row custom-row-1"],
       viewBtnClass: ["fas fa-th","fas fa-th-large","fas fa-bars"],
       viewIndex:0,
       viewIndexPinned: 0,
@@ -175,7 +175,7 @@ class Notes extends Component {
     return notes.map((note, i) => {
       if (note.pinned === false) {
         return (
-          <div className={this.state.viewClass[this.state.viewIndex]} key={note.noteId}>
+          <div  key={note.noteId} className="row-item">
             <div className="note">
               <div className="note-title note-title-bottom">{note.title}</div>
               <ReactQuill
@@ -201,8 +201,8 @@ class Notes extends Component {
     let { notes } = this.state;
     return notes.map((note, i) => {
       if(note.pinned===true)
-      return (
-        <div className={this.state.viewClass[this.state.viewIndexPinned]} key={note.noteId}>
+        return (
+        <div key={note.noteId} className="row-item">
           <div className="note">
             <div className="note-title note-title-bottom">{note.title}</div>
             <ReactQuill
@@ -406,7 +406,7 @@ class Notes extends Component {
                   </div>
                   : null}
                 
-                  <div className="row">
+                  <div className={this.state.viewClass[this.state.viewIndexPinned]}>
                     {this.renderPinnedNotes()}
                   </div>
 
@@ -420,7 +420,7 @@ class Notes extends Component {
                       </button>
                     </div>  
                   </div>
-                <div className="row">
+                <div className={this.state.viewClass[this.state.viewIndex]}>
                   {this.renderSavedNotes()}
                 </div>
 

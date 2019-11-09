@@ -1,3 +1,6 @@
+html
+  transition: all 2s
+
 body
   font: 16px "Arial", Arial
   line-height: 1.1em
@@ -45,6 +48,24 @@ a:focus, input:focus, button:focus, textarea:focus
 .logo-img
   width: 36px
 
+.custom-row
+  //common styles
+      
+.custom-row-3
+  column-count: 3
+
+.custom-row-2
+  column-count: 2
+
+.custom-row-1
+  column-count: 1
+  
+.row-item
+  break-inside: avoid
+  page-break-inside: avoid
+  will-change: transform
+  &:first-child
+    transform: translateY(-0.5em)
 
 .logo-author
   font-size: 11px
@@ -102,9 +123,6 @@ a:focus, input:focus, button:focus, textarea:focus
       color: #FFE98F 
     &:active
       color: #FFDA44
-
-  @media (max-width: 768px)
-    display: none
 
 .credit
   opacity: 0.4
@@ -169,8 +187,6 @@ a:focus, input:focus, button:focus, textarea:focus
   width: 90%
   margin-left: auto
   margin-right: auto
-  // background: yellow
-  // opacity: 0
 
   .tool
     color: gray
@@ -182,8 +198,7 @@ a:focus, input:focus, button:focus, textarea:focus
   
 
 .note
-  // background: pink
-  padding: 1em
+  padding: 1vw
   margin: 8px 0
   border-radius: 8px
   border: 0.8px solid lightgray
@@ -227,7 +242,6 @@ a:focus, input:focus, button:focus, textarea:focus
     font-size: 1em
     font-weight: normal
     padding: 0.25em 0.5em
-    // opacity: 0
     &:hover
       color: gray
 
@@ -236,7 +250,6 @@ a:focus, input:focus, button:focus, textarea:focus
     opacity: 1
 
 .saved-note-header
-  // background: yellow
   text-align: left
   margin-top: 3em
   display: flex
