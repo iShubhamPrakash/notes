@@ -3,9 +3,7 @@ import ReactQuill from 'react-quill';
 // import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import uuid from 'uuid/v1'
-import { timeout } from 'q';
-
-
+import Editor from './Editor';
 
 /*
 Structure of a Note object:
@@ -84,13 +82,16 @@ class Notes extends Component {
       pinnedCount: 0,
       savedCount: 0,
       isSearching: false,
+      modalShow: false,
+      editNoteIndex: null,
     }
   }
 
   componentDidMount() {
-    //Replace link in placeholder to listiee.com
+    //Replace link in placeholder to example.com
     if(document.querySelector('.ql-tooltip-editor input'))
-      document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://listiee.com");
+      document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://example.com");
+    
     this.calculateNoteCount();
   }
 
@@ -107,12 +108,11 @@ class Notes extends Component {
     this.setState({ pinnedCount, savedCount });
   }
 
-  handleEdit = (e, i,noteId) => {
-    // let editor = document.querySelector("#editor" + i);
-    // editor.setAttribute("readOnly", false);
-
-    // editor.readOnly(false);
-
+  handleEdit = async (e, i, noteId) => {
+    await this.setState(prevState => {
+      return {editNoteIndex:i}
+    })
+    this.setModalShow();
   }
 
   handleDelete = async (e, i, noteId) => {
@@ -336,11 +336,55 @@ class Notes extends Component {
     this.setState({ isSearching: false });  
   }
 
+  setModalShow = async () => {
+    this.setState({ modalShow: true });
+  }
+
+  setModalHide = async () => {
+    await this.setState(prevState => {
+      return { editNoteIndex: null }
+    });
+    this.setState({ modalShow: false });
+  }
+
+  saveEdit = async (editNoteIndex,title,text) => {
+    title = title.trim();
+    text = text.trim();
+
+    if (title.length===0) {
+      alert("Please add title");
+      return;
+    }
+    if (text.length===0) {
+      alert("Please add content");
+      return;
+    }
+
+    await this.setState(prevState => {
+      let newNotes = [...prevState.notes];
+      newNotes[editNoteIndex].title = title;
+      newNotes[editNoteIndex].text = text;
+      return { notes: newNotes }
+    });
+
+    this.setState({
+      modalShow: false,
+      editNoteIndex: null,
+    })
+  }
+
   render() {
     const { isSearching } = this.state;
     return (
       <div className="container">
         <div className="notes-component-container">
+          <Editor
+            show={this.state.modalShow}
+            onHide={this.setModalHide}
+            editNoteIndex={this.state.editNoteIndex}
+            editableNote={this.state.notes[this.state.editNoteIndex]}
+            saveEdit={this.saveEdit}
+          />
           <div className="row">
             <div className="col col-12">
                 <div className="search-container">
@@ -423,7 +467,6 @@ class Notes extends Component {
                 <div className={this.state.viewClass[this.state.viewIndex]}>
                   {this.renderSavedNotes()}
                 </div>
-
               </div>
             </div>
             }
