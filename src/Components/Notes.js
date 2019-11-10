@@ -84,7 +84,8 @@ class Notes extends Component {
       savedCount: 0,
       isSearching: false,
       modalShow: false,
-      editNoteIndex: null,
+      editNoteId: null,
+      editNoteObject:null,
       searchTerm:"",
     }
 
@@ -119,21 +120,28 @@ class Notes extends Component {
     this.setState({ pinnedCount, savedCount });
   }
 
-  handleEdit = async (e, i, noteId) => {
+  handleEdit = async (noteId) => {
     await this.setState(prevState => {
-      return {editNoteIndex:i}
+      let { notes } = prevState;
+      let editNoteObject;
+      for (const note of notes) {
+        if (note.noteId === noteId) {
+          editNoteObject = note;
+        }
+      }
+      return {editNoteId:noteId,editNoteObject}
     })
     this.setModalShow();
   }
 
-  handleDelete = async (e, i, noteId) => {
+  handleDelete = async (noteId) => {
     if (window.confirm("Delete this note?")) {
-      await this.deleteNote(e, i, noteId);
+      await this.deleteNote(noteId);
       this.calculateNoteCount();
     }
   }
 
-  deleteNote = async (e, i, noteId) => {
+  deleteNote = async (noteId) => {
     this.setState(prevState => {
       let { notes } = prevState;
       notes = notes.filter(note => note.noteId !== noteId);
@@ -141,20 +149,20 @@ class Notes extends Component {
     });
   }
 
-  handlePin=async (e, i,noteId) => {
+  handlePin=async (noteId) => {
     await this.setState(prevState => {
       let { notes } = prevState;
-      let modifitedNote;
+      let modifiedNote;
       let newNotes = notes.filter(note => {
         if (note.noteId !== noteId) {
           return true;
         } else {
-          modifitedNote = note;
-          modifitedNote.pinned = true;
+          modifiedNote = note;
+          modifiedNote.pinned = true;
           return false;
         }
       });
-      return ({ notes: [modifitedNote, ...newNotes] });
+      return ({ notes: [modifiedNote, ...newNotes] });
     });
 
   this.calculateNoteCount();
@@ -162,48 +170,56 @@ class Notes extends Component {
       document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
   }
 
-  handleUnpin=async (e, i,noteId) => {
+  handleUnpin=async (noteId) => {
     await this.setState(prevState => {
       let { notes } = prevState;
-      let modifitedNote;
+      let modifiedNote;
       let newNotes = notes.filter(note => {
         if (note.noteId !== noteId) {
           return true;
         } else {
-          modifitedNote = note;
-          modifitedNote.pinned = false;
+          modifiedNote = note;
+          modifiedNote.pinned = false;
           return false;
         }
       });
-      return ({ notes: [modifitedNote, ...newNotes] });
+      return ({ notes: [modifiedNote, ...newNotes] });
     });
 
     this.calculateNoteCount();
+  }
+
+  createNoteElement = (note, i) => {
+    return (
+      <div  key={note.noteId} className="row-item">
+        <div className="note">
+          <div className="note-title note-title-bottom">{note.title}</div>
+          <ReactQuill
+            value={note.text}
+            readOnly={true}
+            theme={"bubble"}
+            className="note-text note-text-bottom"
+            id={note.noteId}
+          />
+          <div className="note-tool-container">
+            <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(note.noteId)}><i className="fas fa-pen"/></span>
+            <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(note.noteId)}><i className="far fa-trash-alt"/></span>
+            {
+              note.pinned ?
+              <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
+              :<span className="note-tool btn" title="pin note" onClick={e => this.handlePin(note.noteId)}><i className="fas fa-thumbtack" /></span>
+            }
+          </div>
+        </div>
+      </div>
+    );
   }
 
   renderSavedNotes = () => {
     let { notes } = this.state;
     return notes.map((note, i) => {
       if (note.pinned === false) {
-        return (
-          <div  key={note.noteId} className="row-item">
-            <div className="note">
-              <div className="note-title note-title-bottom">{note.title}</div>
-              <ReactQuill
-                value={note.text}
-                readOnly={true}
-                theme={"bubble"}
-                className="note-text note-text-bottom"
-                id={note.noteId}
-              />
-              <div className="note-tool-container">
-                <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
-                <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
-                <span className="note-tool btn" title="pin note" onClick={e=>this.handlePin(e,i,note.noteId)}><i className="fas fa-thumbtack"/></span>
-              </div>
-            </div>
-          </div>
-        )
+        return this.createNoteElement(note,i);
       }
     })
   }
@@ -211,9 +227,26 @@ class Notes extends Component {
   renderPinnedNotes = () => {
     let { notes } = this.state;
     return notes.map((note, i) => {
-      if(note.pinned===true)
-        return (
-        <div key={note.noteId} className="row-item">
+      if (note.pinned === true)
+        return this.createNoteElement(note,i);
+    })
+  }
+
+  handleSearchKeyPress = e => {
+    this.setState({searchTerm:e.target.value.toLowerCase()})
+  }
+  
+  renderSearchedNotes = () => {
+    const { notes } = this.state;
+    const filteredNotes = notes.filter(note => {
+      const { searchTerm } = this.state;
+      return (note.text.toLowerCase() + note.title.toLowerCase()).includes(searchTerm)
+    })
+    
+    return filteredNotes.map((note, i) => {
+      // this.createNoteElement(note,i);
+      return (
+        <div  key={note.noteId} className="row-item">
           <div className="note">
             <div className="note-title note-title-bottom">{note.title}</div>
             <ReactQuill
@@ -224,50 +257,17 @@ class Notes extends Component {
               id={note.noteId}
             />
             <div className="note-tool-container">
-              <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
-              <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
-              <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(e,i,note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>
+              <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(note.noteId)}><i className="fas fa-pen"/></span>
+              <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(note.noteId)}><i className="far fa-trash-alt"/></span>
+              {
+                note.pinned ?
+                <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
+                :<span className="note-tool btn" title="pin note" onClick={e => this.handlePin(note.noteId)}><i className="fas fa-thumbtack" /></span>
+              }
             </div>
           </div>
         </div>
-      )
-    })
-  }
-
-  handleSearchKeyPress = e => {
-    this.setState({searchTerm:e.target.value})
-  }
-  
-  renderSearchedNotes = () => {
-    //TODO: Implement properly
-    let { notes } = this.state;
-
-    return notes.filter(note => {
-      return (note.text.toLowerCase() + note.title.toLowerCase()).includes(this.state.searchTerm.toLowerCase());
-    }).map((note, i) => {
-        return (
-          <div  key={note.noteId} className="row-item">
-            <div className="note">
-              <div className="note-title note-title-bottom">{note.title}</div>
-              <ReactQuill
-                value={note.text}
-                readOnly={true}
-                theme={"bubble"}
-                className="note-text note-text-bottom"
-                id={note.noteId}
-              />
-              <div className="note-tool-container">
-                <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
-                <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
-                {
-                  note.pinned ?
-                  <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(e,i,note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
-                  :<span className="note-tool btn" title="pin note" onClick={e => this.handlePin(e, i, note.noteId)}><i className="fas fa-thumbtack" /></span>
-               }
-              </div>
-            </div>
-          </div>
-        )
+      );
     })
   }
 
@@ -363,13 +363,15 @@ class Notes extends Component {
   }
 
   setModalHide = async () => {
-    await this.setState(prevState => {
-      return { editNoteIndex: null }
-    });
-    this.setState({ modalShow: false });
+    if (window.confirm("Close without saving?")) {
+      await this.setState(prevState => {
+        return { editNoteId: null, editNoteObject:null }
+      });
+      this.setState({ modalShow: false });
+    }
   }
 
-  saveEdit = async (editNoteIndex,title,text) => {
+  saveEdit = async (editNoteId,title,text) => {
     title = title.trim();
     text = text.trim();
 
@@ -383,15 +385,26 @@ class Notes extends Component {
     }
 
     await this.setState(prevState => {
-      let newNotes = [...prevState.notes];
-      newNotes[editNoteIndex].title = title;
-      newNotes[editNoteIndex].text = text;
-      return { notes: newNotes }
+      let { notes } = prevState;
+      let newNote;
+      let index = 0;
+      for (const note of notes) {
+        if (note.noteId === editNoteId) {
+          newNote = note;
+          break;
+        }
+        index++;
+      }
+      newNote.title = title;
+      newNote.text = text;
+      notes[index] = newNote;
+      return { notes}
     });
 
     this.setState({
       modalShow: false,
-      editNoteIndex: null,
+      editNoteId: null,
+      editNoteObject:null,
     })
   }
 
@@ -400,8 +413,9 @@ class Notes extends Component {
       isSearching,
       searchTerm,
       modalShow,
-      editNoteIndex,
+      editNoteId,
       notes,
+      editNoteObject
     } = this.state;
     return (
       <div className="container">
@@ -409,8 +423,8 @@ class Notes extends Component {
           <Editor
             show={modalShow}
             onHide={this.setModalHide}
-            editNoteIndex={editNoteIndex}
-            editableNote={notes[editNoteIndex]}
+            editNoteId={editNoteId}
+            editableNote={editNoteObject}
             saveEdit={this.saveEdit}
           />
           <div className="row">
@@ -435,10 +449,15 @@ class Notes extends Component {
           {isSearching ?
               <div className="row">
                 <div className="col col-12">
-                  <div>
-                    <p className="search-reasult-header"><i className="fas fa-search"></i>  Search results:</p>
+                    <div className="saved-note-header pinnedNotes">
+                      <p className="search-reasult-header"><i className="fas fa-search"></i>  Search results:</p>
+                      <div className="stretch"></div>
+                      <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChangePinned}><i className={this.state.viewBtnClass[this.state.viewIndexPinned]}/></button>
+                    </div>  
+                    </div>
+                  <div className={this.state.viewClass[this.state.viewIndexPinned]}>
+                    {this.renderSearchedNotes()}
                   </div>
-                  {this.renderSearchedNotes()}
                 </div>
               </div>
                :

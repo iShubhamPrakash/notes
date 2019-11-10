@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.bubble.css';
 export default class Editor extends Component{
 
   state = {
-    editNoteIndex: null,
+    editNoteId: null,
     title: "",
     text: "",
   }
@@ -19,9 +19,9 @@ export default class Editor extends Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.editNoteIndex !== null) {
+    if (nextProps.editNoteId !== null) {
       this.setState({
-        editNoteIndex: nextProps.editNoteIndex,
+        editNoteId: nextProps.editNoteId,
         title: nextProps.editableNote.title,
         text: nextProps.editableNote.text
       });
@@ -49,7 +49,7 @@ export default class Editor extends Component{
   }
 
   render() {
-    const { editNoteIndex, title, text } = this.state;
+    const { editNoteId, title, text } = this.state;
     return (
       <Modal
         isOpen={this.props.show}
@@ -81,7 +81,7 @@ export default class Editor extends Component{
               />
             </ModalBody>
             <ModalFooter>
-              <button className="btn btn-warning btn-custom" onClick={()=>{this.props.saveEdit(editNoteIndex,title,text)}}>Save</button>
+              <button className="btn btn-warning btn-custom" onClick={()=>{this.props.saveEdit(editNoteId,title,text)}}>Save</button>
               <button className="btn btn-warning btn-custom" onClick={this.props.onHide}>Cancel</button>
             </ModalFooter>
           </Modal>
