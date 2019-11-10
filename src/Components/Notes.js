@@ -85,7 +85,9 @@ class Notes extends Component {
       isSearching: false,
       modalShow: false,
       editNoteIndex: null,
+      searchTerm:"",
     }
+
   }
 
   componentDidMount() {
@@ -101,6 +103,7 @@ class Notes extends Component {
         viewBtnClass: ["fas fa-bars","fas fa-th-large","fas fa-th"],
       })
     }
+
   }
 
   calculateNoteCount = () => {
@@ -154,7 +157,7 @@ class Notes extends Component {
       return ({ notes: [modifitedNote, ...newNotes] });
     });
 
-    this.calculateNoteCount();
+  this.calculateNoteCount();
     if(document.querySelector(".pinnedNotes"))
       document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
   }
@@ -230,11 +233,18 @@ class Notes extends Component {
       )
     })
   }
+
+  handleSearchKeyPress = e => {
+    this.setState({searchTerm:e.target.value})
+  }
+  
   renderSearchedNotes = () => {
     //TODO: Implement properly
     let { notes } = this.state;
-    return notes.map((note, i) => {
-      if (note.pinned === false) {
+
+    return notes.filter(note => {
+      return (note.text.toLowerCase() + note.title.toLowerCase()).includes(this.state.searchTerm.toLowerCase());
+    }).map((note, i) => {
         return (
           <div  key={note.noteId} className="row-item">
             <div className="note">
@@ -249,12 +259,15 @@ class Notes extends Component {
               <div className="note-tool-container">
                 <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
                 <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
-                <span className="note-tool btn" title="pin note" onClick={e=>this.handlePin(e,i,note.noteId)}><i className="fas fa-thumbtack"/></span>
+                {
+                  note.pinned ?
+                  <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(e,i,note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
+                  :<span className="note-tool btn" title="pin note" onClick={e => this.handlePin(e, i, note.noteId)}><i className="fas fa-thumbtack" /></span>
+               }
               </div>
             </div>
           </div>
         )
-      }
     })
   }
 
@@ -383,15 +396,21 @@ class Notes extends Component {
   }
 
   render() {
-    const { isSearching } = this.state;
+    const {
+      isSearching,
+      searchTerm,
+      modalShow,
+      editNoteIndex,
+      notes,
+    } = this.state;
     return (
       <div className="container">
         <div className="notes-component-container">
           <Editor
-            show={this.state.modalShow}
+            show={modalShow}
             onHide={this.setModalHide}
-            editNoteIndex={this.state.editNoteIndex}
-            editableNote={this.state.notes[this.state.editNoteIndex]}
+            editNoteIndex={editNoteIndex}
+            editableNote={notes[editNoteIndex]}
             saveEdit={this.saveEdit}
           />
           <div className="row">
@@ -405,7 +424,8 @@ class Notes extends Component {
                     className="notes-search"
                     placeholder="Search"
                     name="search"
-                    onKeyPress={this.handleKeyPress}
+                    value={searchTerm}
+                    onChange={this.handleSearchKeyPress}
                   />
                   <div className="notes-search-clear-icon" onClick={this.handleClearSearch}>
                     <i className="fas fa-times"/>
@@ -415,7 +435,9 @@ class Notes extends Component {
           {isSearching ?
               <div className="row">
                 <div className="col col-12">
-                  <p className="search-reasult-header"><i className="fas fa-search" /> {" "}Search results:</p>
+                  <div>
+                    <p className="search-reasult-header"><i className="fas fa-search"></i>  Search results:</p>
+                  </div>
                   {this.renderSearchedNotes()}
                 </div>
               </div>

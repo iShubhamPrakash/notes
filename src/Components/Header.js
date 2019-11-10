@@ -3,7 +3,7 @@ import React from 'react'
 export default function Header() {
   return (
   <div className="header">
-      <span className="logo"><img className="logo-img" src="/assets/note-icon.svg" />
+      <span className="logo"><img className="logo-img" alt="" src="/assets/note-icon.svg" />
         <h1>Notes</h1>
         <small className="logo-author">
           <a href="https://shubhamprakash.me" rel="noopener noreferrer" target="_blank">By Shubham Prakash</a>
