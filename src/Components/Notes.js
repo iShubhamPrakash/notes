@@ -233,6 +233,10 @@ class Notes extends Component {
   }
 
   handleSearchKeyPress = e => {
+    const { isSearching } = this.state;
+    if ( isSearching === false) {
+      this.setState(prevState => ({ isSearching: true }));
+    }
     this.setState({searchTerm:e.target.value.toLowerCase()})
   }
   
@@ -355,7 +359,7 @@ class Notes extends Component {
   }
 
   handleClearSearch = () => {
-    this.setState({ isSearching: false });  
+    this.setState({ isSearching: false, searchTerm:"" });  
   }
 
   setModalShow = async () => {
@@ -449,12 +453,22 @@ class Notes extends Component {
           {isSearching ?
               <div className="row">
                 <div className="col col-12">
-                    <div className="saved-note-header pinnedNotes">
-                      <p className="search-reasult-header"><i className="fas fa-search"></i>  Search results:</p>
-                      <div className="stretch"></div>
-                      <div className="view-btn"><small>View:</small><button type="button" title="Click to change view" onClick={this.handleViewChangePinned}><i className={this.state.viewBtnClass[this.state.viewIndexPinned]}/></button>
+                  <div className="saved-note-header">
+                    <p className="search-reasult-header"><i className="fas fa-search"></i>  Search results:</p>
+                    <div className="stretch"></div>
+                    <div className="view-btn">
+                      <small>View:</small>
+                      <button
+                        type="button"
+                        title="Click to change view"
+                        onClick={this.handleViewChangePinned}
+                      >
+                        <i className={this.state.viewBtnClass[this.state.viewIndexPinned]} />
+                      </button>
                     </div>  
-                    </div>
+                  </div> 
+                </div>
+                <div className="col col-12">
                   <div className={this.state.viewClass[this.state.viewIndexPinned]}>
                     {this.renderSearchedNotes()}
                   </div>
