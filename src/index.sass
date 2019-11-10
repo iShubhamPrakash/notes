@@ -26,17 +26,21 @@ a:focus, input:focus, button:focus, textarea:focus
   justify-content: center
   align-items: center
   align-content: space-between
-  position: absolute
+  position: sticky
   width: 100%
-  top: 6px
-  z-index: 1
-  @media (max-width: 1150px)
-    position: relative
+  top: 0
+  z-index: 999
+  background: #ffffff
+  padding: 0.25em 0.1em
+  
+.add-shadow
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px
 
 .logo
   padding: 4px 16px
   font-size: 1.3em
   color: gray
+  display: flex
   h1
     font-size: 1.45em
     color: gray
@@ -71,6 +75,8 @@ a:focus, input:focus, button:focus, textarea:focus
   font-size: 11px
   white-space: nowrap
   font-family: 'Yeon Sung', cursive;
+  display: flex
+  align-items: flex-end
 
   a
     color: lightgray
@@ -79,6 +85,9 @@ a:focus, input:focus, button:focus, textarea:focus
       color: gray
       text-decoration: none
 
+  &:hover + .social
+    opacity: 1
+
   @media (max-width: 415px)
     display: none
 
@@ -86,14 +95,20 @@ a:focus, input:focus, button:focus, textarea:focus
 .social
   align-self: center
   height: 100%
-  font-size: 1.4em
+  font-size: 1em
   padding: 0.2em
+  opacity: 0
+  transition: opacity 0.3s
   a
     margin: 0 6px
     opacity: 0.65
     transition: all 0.4s
     &:hover
       opacity: 1
+  &:hover
+      opacity: 1
+  @media (max-width: 415px)
+    font-size: 0.5em
 
 .github
   color: #2e3c49
@@ -130,139 +145,7 @@ a:focus, input:focus, button:focus, textarea:focus
   position: absolute;
   bottom: 0
 
-
-
-
-.notes-component-container
-  width: 100%
-  max-width: 1150px
-  height: 100%
-  padding: 1em
-  padding-top: 13px 
-  margin-left: auto
-  margin-right: auto
-  position: relative
-
-.search-container
-  background: #f9f9f9
-  padding: 4px
-  width: 100%
-  max-width: 600px
-  margin-left: auto
-  margin-right: auto
-  display: flex
-  align-items: center
-  border-radius: 8px
-  margin-bottom: 3.5em 
-  position: relative
-  z-index: 99
-
-  .notes-search-icon,
-  .notes-search-clear-icon
-    width: 30px
-    height: 30px
-    font-size: 1.1em
-    display: flex
-    align-items: center
-    justify-content: center
-    border-radius: 100% !important
-    color: lightgray
-    &:hover
-      color: gray
-      background: #E2E5E6
-    &:active
-      background: lightgray
-
-  .notes-search
-    height: 32px
-    border: none
-    padding: 8px
-    flex-grow: 1
-    background: #f9f9f9
-    
-.tool-container
-  display: flex
-  justify-content: space-evenly
-  padding: 8px 4px
-  width: 90%
-  margin-left: auto
-  margin-right: auto
-
-  .tool
-    color: gray
-    font-size: 12px
-    border-radius: 25px
-    padding: 0.25em 1em
-    font-weight: normal
-    background: transparent
-  
-
-.note
-  padding: 1vw
-  margin: 8px 0
-  border-radius: 8px
-  border: 0.8px solid lightgray
-  transition: all 0.2s
-  padding-bottom: 0px
-
-  &:hover
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
-
-
-.active-note-container
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
-  border-radius: 8px !important
-  margin-bottom: 0.6em
-  max-width: 600px
-  margin-left: auto
-  margin-right: auto
-
-.note-title
-  width: 100%
-  padding: 10px 16px 0
-  font-size: 18px
-  border: none
-  border-radius: 8px  
-
-.note-tool-container
-  display: flex
-  justify-content: space-evenly
-  width: 90%
-  margin-left: auto
-  margin-right: auto
-  transition: all 0.5s
-  opacity: 0
-
-  &:hover
-    opacity: 1
-
-  .note-tool
-    // background: yellow
-    color: lightgray
-    font-size: 1em
-    font-weight: normal
-    padding: 0.25em 0.5em
-    &:hover
-      color: gray
-
-.note-text-bottom
-  &:hover + .note-tool-container
-    opacity: 1
-
-.saved-note-header
-  text-align: left
-  margin-top: 3em
-  display: flex
-  
-
-  small
-    color: gray
-    padding: 0.5em 1em
-    border-radius: 25px
-    font-size: 13px
-    
-
-      
-.search-reasult-header
-  color: gray
-  margin-bottom: 1em
+.btn-custom
+  font-size: 12px
+  border-radius: 25px
+  padding: 0.25em 1em

@@ -69,5 +69,18 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      window.addEventListener('scroll',(e)=>{
+        const header = document.querySelector('.header');
+        console.log(pageYOffset);
+        
+        if(window.pageYOffset>10){
+          header.classList.add("add-shadow");
+        }else{
+          header.classList.remove("add-shadow");
+        }
+      });
+    </script>
   </body>
 </html>

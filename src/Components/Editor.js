@@ -81,8 +81,8 @@ export default class Editor extends Component{
               />
             </ModalBody>
             <ModalFooter>
-              <button className="btn btn-primary" onClick={()=>{this.props.saveEdit(editNoteIndex,title,text)}}>Save</button>
-              <button className="btn btn-primary" onClick={this.props.onHide}>Cancel</button>
+              <button className="btn btn-warning btn-custom" onClick={()=>{this.props.saveEdit(editNoteIndex,title,text)}}>Save</button>
+              <button className="btn btn-warning btn-custom" onClick={this.props.onHide}>Cancel</button>
             </ModalFooter>
           </Modal>
     )

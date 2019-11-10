@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 // import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
+import'./Notes.sass'
 import uuid from 'uuid/v1'
 import Editor from './Editor';
 
@@ -93,6 +94,13 @@ class Notes extends Component {
       document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://example.com");
     
     this.calculateNoteCount();
+
+    if(window.innerWidth < 550){
+      this.setState({
+        viewClass: ["custom-row custom-row-1","custom-row custom-row-2","custom-row custom-row-3"],
+        viewBtnClass: ["fas fa-bars","fas fa-th-large","fas fa-th"],
+      })
+    }
   }
 
   calculateNoteCount = () => {
@@ -223,29 +231,30 @@ class Notes extends Component {
     })
   }
   renderSearchedNotes = () => {
-
     //TODO: Implement properly
     let { notes } = this.state;
     return notes.map((note, i) => {
-      return (
-        <div className={this.state.viewClass[this.state.viewIndexPinned]} key={note.noteId}>
-          <div className="note">
-            <div className="note-title note-title-bottom">{note.title}</div>
-            <ReactQuill
-              value={note.text}
-              readOnly={true}
-              theme={"bubble"}
-              className="note-text note-text-bottom"
-              id={note.noteId}
-            />
-            <div className="note-tool-container">
-              <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
-              <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
-              <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(e,i,note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>
+      if (note.pinned === false) {
+        return (
+          <div  key={note.noteId} className="row-item">
+            <div className="note">
+              <div className="note-title note-title-bottom">{note.title}</div>
+              <ReactQuill
+                value={note.text}
+                readOnly={true}
+                theme={"bubble"}
+                className="note-text note-text-bottom"
+                id={note.noteId}
+              />
+              <div className="note-tool-container">
+                <span className="note-tool btn" title="edit" onClick={e=>this.handleEdit(e,i,note.noteId)}><i className="fas fa-pen"/></span>
+                <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(e,i,note.noteId)}><i className="far fa-trash-alt"/></span>
+                <span className="note-tool btn" title="pin note" onClick={e=>this.handlePin(e,i,note.noteId)}><i className="fas fa-thumbtack"/></span>
+              </div>
             </div>
           </div>
-        </div>
-      )
+        )
+      }
     })
   }
 
