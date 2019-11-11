@@ -1,4 +1,5 @@
 import React from 'react'
+import "./Auth.sass"
 
 export default function Header() {
   return (
@@ -27,7 +28,7 @@ export default function Header() {
       </div>
       <div className="Auth-btn">
         <div>
-          <button className="btn">Sign In</button>
+          <button className="btn" onClick={e=>alert("Feature comming soon...")}>SIGN IN</button>
         </div>
       </div>
   </div>
