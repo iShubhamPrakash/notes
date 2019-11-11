@@ -451,29 +451,25 @@ class Notes extends Component {
                 </div>
               </div>
           {isSearching ?
-              <div className="row">
-                <div className="col col-12">
-                  <div className="saved-note-header">
-                    <p className="search-reasult-header"><i className="fas fa-search"></i>  Search results:</p>
-                    <div className="stretch"></div>
-                    <div className="view-btn">
-                      <small>View:</small>
-                      <button
-                        type="button"
-                        title="Click to change view"
-                        onClick={this.handleViewChangePinned}
-                      >
-                        <i className={this.state.viewBtnClass[this.state.viewIndexPinned]} />
-                      </button>
-                    </div>  
-                  </div> 
+            <div className="col col-12">
+              <div className="searched-note-header">
+                <p className="item go-back" onClick={this.handleClearSearch}><i className="fas fa-chevron-circle-left"></i> Go back </p>
+                <div className="item stretch"><p className="search-reasult-header"><i className="fas fa-search"></i> Search results</p></div>
+                <div className="view-btn item">
+                  <span className="view">View:</span>
+                  <button
+                    type="button"
+                    title="Click to change view"
+                    onClick={this.handleViewChangePinned}
+                  >
+                    <i className={this.state.viewBtnClass[this.state.viewIndexPinned]} />
+                  </button>
+                </div>  
                 </div>
-                <div className="col col-12">
-                  <div className={this.state.viewClass[this.state.viewIndexPinned]}>
-                    {this.renderSearchedNotes()}
-                  </div>
-                </div>
-              </div>
+                <div className={this.state.viewClass[this.state.viewIndexPinned]}>
+                  {this.renderSearchedNotes()}
+                </div> 
+            </div>
                :
             <div className="col col-12">
               <div className="notes-container">
