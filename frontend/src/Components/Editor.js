@@ -10,6 +10,7 @@ export default class Editor extends Component{
     editNoteId: null,
     title: "",
     text: "",
+    pinned:""
   }
 
   componentDidMount() {
@@ -23,7 +24,8 @@ export default class Editor extends Component{
       this.setState({
         editNoteId: nextProps.editNoteId,
         title: nextProps.editableNote.title,
-        text: nextProps.editableNote.text
+        text: nextProps.editableNote.text,
+        pinned: nextProps.editableNote.pinned
       });
     }
   }
@@ -49,7 +51,7 @@ export default class Editor extends Component{
   }
 
   render() {
-    const { editNoteId, title, text } = this.state;
+    const { editNoteId, title, text,pinned } = this.state;
     return (
       <Modal
         isOpen={this.props.show}
@@ -81,7 +83,7 @@ export default class Editor extends Component{
               />
             </ModalBody>
             <ModalFooter>
-              <button className="btn btn-warning btn-custom" onClick={()=>{this.props.saveEdit(editNoteId,title,text)}}>Save</button>
+              <button className="btn btn-warning btn-custom" onClick={()=>{this.props.saveEdit(editNoteId,title,text, pinned)}}>Save</button>
               <button className="btn btn-warning btn-custom" onClick={this.props.onHide}>Cancel</button>
             </ModalFooter>
           </Modal>

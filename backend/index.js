@@ -15,52 +15,29 @@ app.listen(5000,e=>console.log("Running server on http://localhost:5000..."))
 let notes= [
     {
       title: "Note 1",
-      text: '<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</h1><p><br></p><h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</h2><p><br></p><blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</blockquote><p><br></p><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</strong></p><p><br></p><p><em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</em></p><p><br></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p><br></p><p><a href="http://localhost:3000/www.google.com" rel="noopener noreferrer" target="_blank">www.google.com</a></p><p><br></p><p>shubham prakash</p>',
+      text: '<h1>note 1</p>',
       noteId: "decfb430-01d4-11ea-9dd9-195e9663b7e2",
       pinned:false,
     },
     {
       title: "Note 2",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+      text: "<p>note 2</p>",
       noteId: "f06a3c10-01d4-11ea-9dd9-195e9663b7e2",
       pinned:false,
     },
     {
-      title: "Note 5",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+      title: "Note 3",
+      text: "<p>note 3</p>",
       noteId: "0f3980b0-01d5-11ea-9dd9-195e9663b7e2",
       pinned:true,
     },
     {
-      title: "Note 3",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
+      title: "Note 4",
+      text: "<p>note 4</p>",
       noteId: "fbd49910-01d4-11ea-9dd9-195e9663b7d2",
       pinned:false,
     },
-    {
-      title: "Note 3",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-      noteId: "fbd49910-01d4-11ea-9dd9-195e9663b7e2",
-      pinned:true,
-    },
-    {
-      title: "Note 4",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-      noteId: "065dbdd0-01d5-11ea-9dd9-195e9663b7e2",
-      pinned:false,
-    },
-    {
-      title: "Note 5",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-      noteId: "0f3980b0-01d5-11ea-9dd9-195e9663d7e2",
-      pinned:false,
-    },
-    {
-      title: "Note 4",
-      text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-      noteId: "065dbdd0-01d5-11ea-9dd9-195e9663bse2",
-      pinned:true,
-    },
+  
   ]
 
 app.get('/',(req,res)=> res.send("Hello world..."))
@@ -92,6 +69,7 @@ app.get('/notes/:noteId',(req,res)=>{
 app.put('/notes/:noteId',(req,res)=>{
     const noteId= req.params.noteId
     const {title,text,pinned} = req.body
+    
     notes= notes.map(note=>{
         if(note.noteId === noteId){
             return {
@@ -136,4 +114,26 @@ app.post('/notes/add',(req,res)=>{
         success: true,
         message: "Note added successfully"
     })
+})
+
+// toggle pin in a note-
+app.put('/notes/togglePin/:noteId',(req,res)=>{
+  const noteId= req.params.noteId
+  notes= notes.map(note=>{
+      if(note.noteId === noteId){
+          return {
+              title: note.title,
+              text: note.text,
+              noteId: note.noteId,
+              pinned: !note.pinned,
+          }
+      }
+      return note
+  })
+  console.log("Updated pinned status", noteId);
+  
+  res.status(200).send({
+      success: true,
+      message: "Updated pinned status successfully"
+  })
 })

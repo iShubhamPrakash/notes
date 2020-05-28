@@ -6,6 +6,7 @@ import'./Notes.sass'
 import uuid from 'uuid/v1'
 import Editor from './Editor';
 
+const baseURL= 'http://localhost:5000'
 /*
 Structure of a Note object:
 {
@@ -22,56 +23,7 @@ class Notes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: [
-        {
-          title: "Note 1",
-          text: '<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</h1><p><br></p><h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</h2><p><br></p><blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</blockquote><p><br></p><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</strong></p><p><br></p><p><em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</em></p><p><br></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p><br></p><p><a href="http://localhost:3000/www.google.com" rel="noopener noreferrer" target="_blank">www.google.com</a></p><p><br></p><p>shubham prakash</p>',
-          noteId: "decfb430-01d4-11ea-9dd9-195e9663b7e2",
-          pinned:false,
-        },
-        {
-          title: "Note 2",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "f06a3c10-01d4-11ea-9dd9-195e9663b7e2",
-          pinned:false,
-        },
-        {
-          title: "Note 5",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "0f3980b0-01d5-11ea-9dd9-195e9663b7e2",
-          pinned:true,
-        },
-        {
-          title: "Note 3",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "fbd49910-01d4-11ea-9dd9-195e9663b7d2",
-          pinned:false,
-        },
-        {
-          title: "Note 3",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "fbd49910-01d4-11ea-9dd9-195e9663b7e2",
-          pinned:true,
-        },
-        {
-          title: "Note 4",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "065dbdd0-01d5-11ea-9dd9-195e9663b7e2",
-          pinned:false,
-        },
-        {
-          title: "Note 5",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "0f3980b0-01d5-11ea-9dd9-195e9663d7e2",
-          pinned:false,
-        },
-        {
-          title: "Note 4",
-          text: "<p><a href=\"http://localhost:3000/notes\" rel=\"noopener noreferrer\" target=\"_blank\">http://localhost:3000/notes</a></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam esse, vero temporibus rerum voluptatum aspernatur at minima ipsa sequi exercitationem!</p>",
-          noteId: "065dbdd0-01d5-11ea-9dd9-195e9663bse2",
-          pinned:true,
-        },
-      ],
+      notes: [],
       title:"",
       text: "",
 
@@ -105,6 +57,16 @@ class Notes extends Component {
       })
     }
 
+    this.loadNotes()
+
+  }
+
+  loadNotes= async ()=>{
+    let data= await fetch(`${baseURL}/notes`)
+        data= await data.json()
+    const {notes}= data
+    // console.log('data',notes);
+    this.setState({notes})
   }
 
   calculateNoteCount = () => {
@@ -121,6 +83,7 @@ class Notes extends Component {
   }
 
   handleEdit = async (noteId) => {
+
     await this.setState(prevState => {
       let { notes } = prevState;
       let editNoteObject;
@@ -142,52 +105,38 @@ class Notes extends Component {
   }
 
   deleteNote = async (noteId) => {
-    this.setState(prevState => {
-      let { notes } = prevState;
-      notes = notes.filter(note => note.noteId !== noteId);
-      return ({ notes });
-    });
+
+    let res= await fetch(`${baseURL}/notes/${noteId}`,{
+      method: 'DELETE'
+    })
+
+    res= await res.json()
+
+    if(res.success === true){
+      this.loadNotes()
+    }else{
+      alert("Could not delets the note.")
+    }
   }
 
-  handlePin=async (noteId) => {
-    await this.setState(prevState => {
-      let { notes } = prevState;
-      let modifiedNote;
-      let newNotes = notes.filter(note => {
-        if (note.noteId !== noteId) {
-          return true;
-        } else {
-          modifiedNote = note;
-          modifiedNote.pinned = true;
-          return false;
-        }
-      });
-      return ({ notes: [modifiedNote, ...newNotes] });
-    });
 
-  this.calculateNoteCount();
-    if(document.querySelector(".pinnedNotes"))
-      document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
+  togglePinStatus= async (noteId)=>{
+    let res= await fetch(`${baseURL}/notes/togglePin/${noteId}`,{
+      method: 'PUT',
+    })
+
+    res= await res.json()
+
+    if(res.success=== true){
+      await this.loadNotes();
+      this.calculateNoteCount();
+      if(document.querySelector(".pinnedNotes"))
+        document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
+    }else{
+      alert(" Could not change the pinned status.. Please try again !!")
+    }
   }
 
-  handleUnpin=async (noteId) => {
-    await this.setState(prevState => {
-      let { notes } = prevState;
-      let modifiedNote;
-      let newNotes = notes.filter(note => {
-        if (note.noteId !== noteId) {
-          return true;
-        } else {
-          modifiedNote = note;
-          modifiedNote.pinned = false;
-          return false;
-        }
-      });
-      return ({ notes: [modifiedNote, ...newNotes] });
-    });
-
-    this.calculateNoteCount();
-  }
 
   createNoteElement = (note, i) => {
     return (
@@ -206,8 +155,8 @@ class Notes extends Component {
             <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(note.noteId)}><i className="far fa-trash-alt"/></span>
             {
               note.pinned ?
-              <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
-              :<span className="note-tool btn" title="pin note" onClick={e => this.handlePin(note.noteId)}><i className="fas fa-thumbtack" /></span>
+              <span className="note-tool btn" title="unpin note" onClick={e=>this.togglePinStatus(note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
+              :<span className="note-tool btn" title="pin note" onClick={e => this.togglePinStatus(note.noteId)}><i className="fas fa-thumbtack" /></span>
             }
           </div>
         </div>
@@ -265,8 +214,8 @@ class Notes extends Component {
               <span className="note-tool btn" title="delete" onClick={e=>this.handleDelete(note.noteId)}><i className="far fa-trash-alt"/></span>
               {
                 note.pinned ?
-                <span className="note-tool btn" title="unpin note" onClick={e=>this.handleUnpin(note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
-                :<span className="note-tool btn" title="pin note" onClick={e => this.handlePin(note.noteId)}><i className="fas fa-thumbtack" /></span>
+                <span className="note-tool btn" title="unpin note" onClick={e=>this.togglePinStatus(note.noteId)}><i className="fas fa-thumbtack" style={{color:"pink"}}/></span>    
+                :<span className="note-tool btn" title="pin note" onClick={e => this.togglePinStatus(note.noteId)}><i className="fas fa-thumbtack" /></span>
               }
             </div>
           </div>
@@ -302,15 +251,30 @@ class Notes extends Component {
       title, text, noteId, pinned:false,
     };
 
-    await this.setState({
-      notes: [newNote, ...this.state.notes],
-      title: "",
-      text: "",
-    });
+    let res= await fetch(`${baseURL}/notes/add`,{
+      method: 'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(newNote)
+    })
 
-    this.calculateNoteCount();
-    if(document.querySelector(".saveNotes"))
-      document.querySelector(".saveNotes").scrollIntoView({ behavior: 'smooth' });
+    res = await res.json()
+
+    if (res.success=== true){
+      await this.loadNotes()
+      await this.setState({
+        title: "",
+        text: "",
+      });
+
+      this.calculateNoteCount();
+      if(document.querySelector(".saveNotes"))
+        document.querySelector(".saveNotes").scrollIntoView({ behavior: 'smooth' });
+
+    }else{
+      alert("Could not save the note.. please try again!!")
+    }
   }
 
   handleKeyPress = e => {
@@ -375,7 +339,7 @@ class Notes extends Component {
     }
   }
 
-  saveEdit = async (editNoteId,title,text) => {
+  saveEdit = async (editNoteId,title,text,pinned) => {
     title = title.trim();
     text = text.trim();
 
@@ -388,28 +352,32 @@ class Notes extends Component {
       return;
     }
 
-    await this.setState(prevState => {
-      let { notes } = prevState;
-      let newNote;
-      let index = 0;
-      for (const note of notes) {
-        if (note.noteId === editNoteId) {
-          newNote = note;
-          break;
-        }
-        index++;
-      }
-      newNote.title = title;
-      newNote.text = text;
-      notes[index] = newNote;
-      return { notes}
-    });
-
-    this.setState({
-      modalShow: false,
-      editNoteId: null,
-      editNoteObject:null,
+    let res= await fetch(`${baseURL}/notes/${editNoteId}`,{
+      method: 'PUT',
+      headers:{
+        'Content-Type':'application/json',
+      },
+      body:JSON.stringify({
+        title,
+        text,
+        pinned
+      })
     })
+
+    res= await res.json()
+
+    console.log("edit res-",res)
+
+    if(res.success=== true){
+      await this.loadNotes()
+      this.setState({
+        modalShow: false,
+        editNoteId: null,
+        editNoteObject:null,
+      })
+    }else{
+      alert("Could not edit the note...")
+    }
   }
 
   render() {
@@ -499,7 +467,6 @@ class Notes extends Component {
                   </div>
                 </div>
                 
-                {this.state.pinnedCount> 0 ?
                   <div>
                     <div className="saved-note-header pinnedNotes">
                       <small>PINNED: <span className="note-count">{this.state.pinnedCount}</span></small>
@@ -508,7 +475,6 @@ class Notes extends Component {
                     </div>  
                     </div>
                   </div>
-                  : null}
                 
                   <div className={this.state.viewClass[this.state.viewIndexPinned]}>
                     {this.renderPinnedNotes()}
