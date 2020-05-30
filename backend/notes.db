@@ -1,0 +1,19 @@
+CREATE TABLE notes (
+    noteId serial PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    text VARCHAR,
+    pinned BOOLEAN DEFAULT 'f'
+);
+
+INSERT INTO notes (title,text,pinned)
+VALUES
+    ('Note title 1', 'This is note 1', false),
+    ('Note title 2', 'This is note 2', true),
+    ('Note title 3', 'This is note 3', false),
+    ('Note title 4', 'This is note 4', false),
+    ('Note title 5', 'This is note 5', true),
+    ('Note title 6', 'This is note 6', false),
+    ('Note title 7', 'This is note 7', false),
+    ('Note title 8', 'This is note 8', true),
+    ('Note title 9', 'This is note 9', false),
+    ('Note title 10', 'This is note 10', false);
