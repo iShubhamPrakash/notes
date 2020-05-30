@@ -6,7 +6,8 @@ import'./Notes.sass'
 import uuid from 'uuid/v1'
 import Editor from './Editor';
 
-const baseURL= 'http://localhost:5000'
+import { baseURL } from '../constants/baseConstants'
+
 /*
 Structure of a Note object:
 {
