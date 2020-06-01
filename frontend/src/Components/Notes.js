@@ -246,10 +246,10 @@ class Notes extends Component {
       return;
     }
 
-    const noteId = uuid();
+    // const noteId = uuid();
 
     let newNote = {
-      title, text, noteId, pinned:false,
+      title, text, pinned:false,
     };
 
     let res= await fetch(`${baseURL}/notes/add`,{

@@ -1,5 +1,5 @@
 CREATE TABLE notes (
-    noteId serial PRIMARY KEY,
+    "noteId" serial PRIMARY KEY,
     title VARCHAR NOT NULL,
     text VARCHAR,
     pinned BOOLEAN DEFAULT 'f'
