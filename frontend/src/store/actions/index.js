@@ -2,12 +2,13 @@ import { baseURL } from '../../constants/baseConstants'
 
 // Action Types
 export const LOAD_NOTES = 'LOAD_NOTES'
+export const DELETE_NOTE = 'DELETE_NOTE'
 
 
 
 // CREATE_NOTE
 // EDIT_NOTES
-// DELETE_NOTE
+// 
 // TOGGLE_PIN
 
 // Action creators
@@ -22,3 +23,27 @@ export const loadNotes = () => async (dispatch) => {
         notes: notes
     })
 }
+
+
+
+
+
+
+
+export const deleteNote = (noteId) => async (dispatch) => {
+
+    let res= await fetch(`${baseURL}/notes/${noteId}`,{
+      method: 'DELETE'
+    })
+
+    res = await res.json()
+
+    if(res.success === true){
+        dispatch({
+            type: DELETE_NOTE,
+            id: noteId
+      })
+    }else{
+      alert("Could not delets the note.")
+    }
+  }

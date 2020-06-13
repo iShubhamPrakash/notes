@@ -10,7 +10,8 @@ import { baseURL } from '../constants/baseConstants'
 
 import { connect } from 'react-redux'
 import { 
-  loadNotes
+  loadNotes,
+  deleteNote
 } from '../store/actions'
 /*
 Structure of a Note object:
@@ -65,14 +66,6 @@ class Notes extends Component {
 
   }
 
-  // loadNotes= async ()=> {
-  //   let data= await fetch(`${baseURL}/notes`)
-  //       data= await data.json()
-  //   const {notes}= data
-  //   // console.log('data',notes);
-  //   this.setState({notes})
-  // }
-
   calculateNoteCount = () => {
     let { notes } = this.props;
     let savedCount = notes.length;
@@ -103,26 +96,10 @@ class Notes extends Component {
 
   handleDelete = async (noteId) => {
     if (window.confirm("Delete this note?")) {
-      await this.deleteNote(noteId);
+      await this.props.deleteNote(noteId)
       this.calculateNoteCount();
     }
   }
-
-  deleteNote = async (noteId) => {
-
-    let res= await fetch(`${baseURL}/notes/${noteId}`,{
-      method: 'DELETE'
-    })
-
-    res= await res.json()
-
-    if(res.success === true){
-      this.props.loadNotes()
-    }else{
-      alert("Could not delets the note.")
-    }
-  }
-
 
   togglePinStatus= async (noteId)=>{
     let res= await fetch(`${baseURL}/notes/togglePin/${noteId}`,{
@@ -516,6 +493,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  loadNotes
+  loadNotes,
+  deleteNote
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Notes);
