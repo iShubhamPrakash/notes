@@ -8,6 +8,10 @@ import Editor from './Editor';
 
 import { baseURL } from '../constants/baseConstants'
 
+import { connect } from 'react-redux'
+import { 
+  loadNotes
+} from '../store/actions'
 /*
 Structure of a Note object:
 {
@@ -24,7 +28,7 @@ class Notes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: [],
+      // notes: [],
       title:"",
       text: "",
 
@@ -44,13 +48,11 @@ class Notes extends Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     //Replace link in placeholder to example.com
     if(document.querySelector('.ql-tooltip-editor input'))
       document.querySelector('.ql-tooltip-editor input').setAttribute("data-link", "https://example.com");
     
-    this.calculateNoteCount();
-
     if(window.innerWidth < 550){
       this.setState({
         viewClass: ["custom-row custom-row-1","custom-row custom-row-2","custom-row custom-row-3"],
@@ -58,20 +60,21 @@ class Notes extends Component {
       })
     }
 
-    this.loadNotes()
+    await this.props.loadNotes()
+    this.calculateNoteCount();
 
   }
 
-  loadNotes= async ()=>{
-    let data= await fetch(`${baseURL}/notes`)
-        data= await data.json()
-    const {notes}= data
-    // console.log('data',notes);
-    this.setState({notes})
-  }
+  // loadNotes= async ()=> {
+  //   let data= await fetch(`${baseURL}/notes`)
+  //       data= await data.json()
+  //   const {notes}= data
+  //   // console.log('data',notes);
+  //   this.setState({notes})
+  // }
 
   calculateNoteCount = () => {
-    let { notes } = this.state;
+    let { notes } = this.props;
     let savedCount = notes.length;
     let pinnedCount = 0;
 
@@ -85,8 +88,8 @@ class Notes extends Component {
 
   handleEdit = async (noteId) => {
 
-    await this.setState(prevState => {
-      let { notes } = prevState;
+    await this.setState(( prevState,props )=> {
+      let { notes } = props;
       let editNoteObject;
       for (const note of notes) {
         if (note.noteId === noteId) {
@@ -114,7 +117,7 @@ class Notes extends Component {
     res= await res.json()
 
     if(res.success === true){
-      this.loadNotes()
+      this.props.loadNotes()
     }else{
       alert("Could not delets the note.")
     }
@@ -129,7 +132,7 @@ class Notes extends Component {
     res= await res.json()
 
     if(res.success=== true){
-      await this.loadNotes();
+      await this.props.loadNotes();
       this.calculateNoteCount();
       if(document.querySelector(".pinnedNotes"))
         document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
@@ -166,7 +169,7 @@ class Notes extends Component {
   }
 
   renderSavedNotes = () => {
-    let { notes } = this.state;
+    let { notes } = this.props;
     return notes.map((note, i) => {
       if (note.pinned === false) {
         return this.createNoteElement(note,i);
@@ -175,7 +178,7 @@ class Notes extends Component {
   }
 
   renderPinnedNotes = () => {
-    let { notes } = this.state;
+    let { notes } = this.props;
     return notes.map((note, i) => {
       if (note.pinned === true)
         return this.createNoteElement(note,i);
@@ -191,7 +194,7 @@ class Notes extends Component {
   }
   
   renderSearchedNotes = () => {
-    const { notes } = this.state;
+    const { notes } = this.props;
     const filteredNotes = notes.filter(note => {
       const { searchTerm } = this.state;
       return (note.text.toLowerCase() + note.title.toLowerCase()).includes(searchTerm)
@@ -263,7 +266,7 @@ class Notes extends Component {
     res = await res.json()
 
     if (res.success=== true){
-      await this.loadNotes()
+      await this.props.loadNotes()
       await this.setState({
         title: "",
         text: "",
@@ -370,7 +373,7 @@ class Notes extends Component {
     console.log("edit res-",res)
 
     if(res.success=== true){
-      await this.loadNotes()
+      await this.props.loadNotes()
       this.setState({
         modalShow: false,
         editNoteId: null,
@@ -387,9 +390,13 @@ class Notes extends Component {
       searchTerm,
       modalShow,
       editNoteId,
-      notes,
       editNoteObject
     } = this.state;
+
+    const {
+      notes,
+    } = this.props
+
     return (
       <div className="container">
         <div className="notes-component-container">
@@ -504,4 +511,11 @@ class Notes extends Component {
   }
 }
 
-export default Notes;
+const mapStateToProps = (state) => {
+  return state
+}
+
+const mapDispatchToProps = {
+  loadNotes
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Notes);
