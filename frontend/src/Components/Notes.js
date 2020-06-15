@@ -12,7 +12,8 @@ import { connect } from 'react-redux'
 import { 
   loadNotes,
   deleteNote,
-  togglePinStatus
+  togglePinStatus,
+  createNote
 } from '../store/actions'
 /*
 Structure of a Note object:
@@ -225,23 +226,13 @@ class Notes extends Component {
       title, text, pinned:false,
     };
 
-    let res= await fetch(`${baseURL}/notes/add`,{
-      method: 'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(newNote)
-    })
+    let res = await this.props.createNote(newNote)
 
-    res = await res.json()
-
-    if (res.success=== true){
-      await this.props.loadNotes()
+    if (res.success === true){
       await this.setState({
         title: "",
         text: "",
       });
-
       this.calculateNoteCount();
       if(document.querySelector(".saveNotes"))
         document.querySelector(".saveNotes").scrollIntoView({ behavior: 'smooth' });
@@ -489,5 +480,6 @@ const mapDispatchToProps = {
   loadNotes,
   deleteNote,
   togglePinStatus,
+  createNote,
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Notes);

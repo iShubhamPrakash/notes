@@ -4,10 +4,10 @@ import { baseURL } from '../../constants/baseConstants'
 export const LOAD_NOTES = 'LOAD_NOTES'
 export const DELETE_NOTE = 'DELETE_NOTE'
 export const TOGGLE_PIN = 'TOGGLE_PIN'
+export const CREATE_NOTE = 'CREATE_NOTE'
 
 
 
-// CREATE_NOTE
 // EDIT_NOTES
 // 
 // 
@@ -59,6 +59,33 @@ export const togglePinStatus = (noteId) => async (dispatch) => {
     })
   }else{
     console.log("Could not change the pinned status.. Please try again !!")
+  }
+  return res
+}
+
+export const createNote = ({title,text,pinned}) => async (dispatch) => {
+
+  let newNote = {
+    title, text, pinned,
+  };
+  
+  let res = await fetch(`${baseURL}/notes/add`,{
+    method: 'POST',
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(newNote)
+  })
+
+  res = await res.json()
+
+  if(res.success === true){
+    dispatch({
+        type: CREATE_NOTE,
+        note: res.note
+    })
+  }else{
+    console.log("Could not save the note.. please try again!!")
   }
   return res
 }
