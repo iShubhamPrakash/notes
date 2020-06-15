@@ -11,7 +11,8 @@ import { baseURL } from '../constants/baseConstants'
 import { connect } from 'react-redux'
 import { 
   loadNotes,
-  deleteNote
+  deleteNote,
+  togglePinStatus
 } from '../store/actions'
 /*
 Structure of a Note object:
@@ -102,17 +103,9 @@ class Notes extends Component {
   }
 
   togglePinStatus= async (noteId)=>{
-    let res= await fetch(`${baseURL}/notes/togglePin/${noteId}`,{
-      method: 'PUT',
-    })
-
-    res= await res.json()
-
-    if(res.success=== true){
-      await this.props.loadNotes();
-      this.calculateNoteCount();
-      if(document.querySelector(".pinnedNotes"))
-        document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
+    let res = await this.props.togglePinStatus(noteId)
+    if(res.success=== true && document.querySelector(".pinnedNotes")){
+      document.querySelector(".pinnedNotes").scrollIntoView({ behavior: 'smooth' });
     }else{
       alert(" Could not change the pinned status.. Please try again !!")
     }
@@ -494,6 +487,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   loadNotes,
-  deleteNote
+  deleteNote,
+  togglePinStatus,
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Notes);

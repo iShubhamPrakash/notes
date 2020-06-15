@@ -3,13 +3,14 @@ import { baseURL } from '../../constants/baseConstants'
 // Action Types
 export const LOAD_NOTES = 'LOAD_NOTES'
 export const DELETE_NOTE = 'DELETE_NOTE'
+export const TOGGLE_PIN = 'TOGGLE_PIN'
 
 
 
 // CREATE_NOTE
 // EDIT_NOTES
 // 
-// TOGGLE_PIN
+// 
 
 // Action creators
 export const loadNotes = () => async (dispatch) => {
@@ -25,25 +26,39 @@ export const loadNotes = () => async (dispatch) => {
 }
 
 
-
-
-
-
-
 export const deleteNote = (noteId) => async (dispatch) => {
 
-    let res= await fetch(`${baseURL}/notes/${noteId}`,{
-      method: 'DELETE'
+  let res= await fetch(`${baseURL}/notes/${noteId}`,{
+    method: 'DELETE'
+  })
+
+  res = await res.json()
+
+  if(res.success === true){
+      dispatch({
+          type: DELETE_NOTE,
+          id: noteId
     })
-
-    res = await res.json()
-
-    if(res.success === true){
-        dispatch({
-            type: DELETE_NOTE,
-            id: noteId
-      })
-    }else{
-      alert("Could not delets the note.")
-    }
+  }else{
+    alert("Could not delets the note.")
   }
+}
+
+export const togglePinStatus = (noteId) => async (dispatch) => {
+
+  let res= await fetch(`${baseURL}/notes/togglePin/${noteId}`,{
+    method: 'PUT',
+  })
+
+  res = await res.json()
+
+  if(res.success === true){
+    dispatch({
+        type: TOGGLE_PIN,
+        id: noteId
+    })
+  }else{
+    console.log("Could not change the pinned status.. Please try again !!")
+  }
+  return res
+}

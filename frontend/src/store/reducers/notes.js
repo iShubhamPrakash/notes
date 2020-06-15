@@ -1,4 +1,4 @@
-import {LOAD_NOTES, DELETE_NOTE} from '../actions'
+import {LOAD_NOTES, DELETE_NOTE, TOGGLE_PIN} from '../actions'
 
 
 
@@ -9,7 +9,10 @@ const notes = (state = [], action) => {
             return [ ...state, ...action.notes ]
 
         case DELETE_NOTE:
-            return [...state.filter(note=> note.noteId !== action.id)]
+            return state.filter(note=> note.noteId !== action.id)
+
+        case TOGGLE_PIN:
+            return state.map(note=> note.noteId !== action.id ? note : Object.assign(note, {pinned: !note.pinned}))
 
         default:
             return state
