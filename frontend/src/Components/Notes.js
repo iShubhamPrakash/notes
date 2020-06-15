@@ -13,7 +13,8 @@ import {
   loadNotes,
   deleteNote,
   togglePinStatus,
-  createNote
+  createNote,
+  editNote
 } from '../store/actions'
 /*
 Structure of a Note object:
@@ -304,7 +305,7 @@ class Notes extends Component {
     }
   }
 
-  saveEdit = async (editNoteId,title,text,pinned) => {
+  saveEdit = async (noteId,title,text,pinned) => {
     title = title.trim();
     text = text.trim();
 
@@ -317,24 +318,9 @@ class Notes extends Component {
       return;
     }
 
-    let res= await fetch(`${baseURL}/notes/${editNoteId}`,{
-      method: 'PUT',
-      headers:{
-        'Content-Type':'application/json',
-      },
-      body:JSON.stringify({
-        title,
-        text,
-        pinned
-      })
-    })
-
-    res= await res.json()
-
-    console.log("edit res-",res)
+    let res = await this.props.editNote({noteId,title,text,pinned})
 
     if(res.success=== true){
-      await this.props.loadNotes()
       this.setState({
         modalShow: false,
         editNoteId: null,
@@ -481,5 +467,6 @@ const mapDispatchToProps = {
   deleteNote,
   togglePinStatus,
   createNote,
+  editNote
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Notes);

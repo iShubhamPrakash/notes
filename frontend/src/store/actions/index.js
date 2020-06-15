@@ -5,12 +5,7 @@ export const LOAD_NOTES = 'LOAD_NOTES'
 export const DELETE_NOTE = 'DELETE_NOTE'
 export const TOGGLE_PIN = 'TOGGLE_PIN'
 export const CREATE_NOTE = 'CREATE_NOTE'
-
-
-
-// EDIT_NOTES
-// 
-// 
+export const EDIT_NOTES = 'EDIT_NOTES'
 
 // Action creators
 export const loadNotes = () => async (dispatch) => {
@@ -83,6 +78,34 @@ export const createNote = ({title,text,pinned}) => async (dispatch) => {
     dispatch({
         type: CREATE_NOTE,
         note: res.note
+    })
+  }else{
+    console.log("Could not save the note.. please try again!!")
+  }
+  return res
+}
+
+export const editNote = ({ noteId,title,text,pinned }) => async (dispatch) => {
+
+  let res = await fetch(`${baseURL}/notes/${noteId}`,{
+    method: 'PUT',
+    headers:{
+      'Content-Type':'application/json',
+    },
+    body:JSON.stringify({
+      title,
+      text,
+      pinned
+    })
+  })
+
+  res = await res.json()
+
+  if(res.success === true){
+    dispatch({
+        type: EDIT_NOTES,
+        id: noteId,
+        note: { noteId, title, text, pinned }
     })
   }else{
     console.log("Could not save the note.. please try again!!")
