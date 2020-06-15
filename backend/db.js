@@ -124,11 +124,12 @@ async function editNoteInDB(noteId,title,text,pinned){
 async function createNoteInDB(title,text,pinned){
     const client= await pool.connect()
     try{
-        const res = await client.query('INSERT into notes (title, text, pinned) values ($1,$2,$3)',[title, text, pinned])
-        return "success"
+        // "RETURNING *" at the end of query allow us to get back the newly created entry in db 
+        const res = await client.query('INSERT into notes (title, text, pinned) values ($1,$2,$3) RETURNING *',[title, text, pinned])
+        return {sucess:true, note:res.rows[0]}
     }catch(e){
         console.log(`Something wrong happend ${e}`)
-        return null
+        return {sucess:false}
     }
     finally{
         await client.release()

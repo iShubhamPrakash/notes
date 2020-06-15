@@ -129,18 +129,19 @@ app.delete('/notes/:noteId',async (req,res)=>{
 })
 
 // Add a new note
-app.post('/notes/add',(req,res)=>{
+app.post('/notes/add', async (req,res)=>{
     const {title,text,pinned} = req.body
     try{
-        const create = createNoteInDB(title,text,pinned)
+        const create = await createNoteInDB(title,text,pinned)
 
-        if(create === null){
+        if(create.success === false){
             throw "Could not add note"
         }
 
         res.status(200).send({
+            note: create.note,
             success: true,
-            message: "Note added successfully"
+            message: "Note created successfully",
         })
 
     }catch(e){
