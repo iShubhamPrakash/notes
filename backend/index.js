@@ -24,9 +24,10 @@ app.get('/',(req,res)=> res.send("Hello world..."))
 
 // Get all notes
 app.get('/notes',async (req,res)=>{
+    const user_id= req.body.user_id;
 
     try{
-        const notes= await getNotesFromDB()
+        const notes= await getNotesFromDB(parseInt(user_id))
 
         if(notes=== null){
             throw "could not get notes from the database"
@@ -52,9 +53,11 @@ app.get('/notes',async (req,res)=>{
 // Get note by id
 app.get('/notes/:noteId',async (req,res)=>{
     const noteId= req.params.noteId
-    
+    const user_id= req.body.user_id;
+
+    parseInt(user_id)
     try{
-        const notes= await getNoteByIdFromDB(parseInt(noteId))
+        const notes= await getNoteByIdFromDB(parseInt(noteId),parseInt(user_id))
 
         if(notes=== null){
             throw "could not get note from the database"
@@ -80,9 +83,11 @@ app.get('/notes/:noteId',async (req,res)=>{
 app.put('/notes/:noteId',(req,res)=>{
     const noteId= req.params.noteId
     const {title,text,pinned} = req.body
+    const user_id= req.body.user_id;
+
     
     try{
-        const update = editNoteInDB(parseInt(noteId),title,text, pinned)
+        const update = editNoteInDB(parseInt(noteId),title,text, pinned,parseInt(user_id))
 
         if(update === null){
             throw "Could not toggle pin"
@@ -108,8 +113,10 @@ app.put('/notes/:noteId',(req,res)=>{
 // Delete note by id
 app.delete('/notes/:noteId',async (req,res)=>{
     const noteId= req.params.noteId
+    const user_id= req.body.user_id;
+
     try{
-        const del = await deleteNoteFromDB(noteId)
+        const del = await deleteNoteFromDB(noteId, parseInt(user_id))
 
         if(del === null){
             throw "Could not delete the note."
@@ -131,8 +138,10 @@ app.delete('/notes/:noteId',async (req,res)=>{
 // Add a new note
 app.post('/notes/add', async (req,res)=>{
     const {title,text,pinned} = req.body
+    const user_id= req.body.user_id;
+
     try{
-        const create = await createNoteInDB(title,text,pinned)
+        const create = await createNoteInDB(title,text,pinned, parseInt(user_id))
 
         if(create.success === false){
             throw "Could not add note"
@@ -156,8 +165,10 @@ app.post('/notes/add', async (req,res)=>{
 // toggle pin in a note-
 app.put('/notes/togglePin/:noteId',(req,res)=>{
     const noteId= req.params.noteId   
+    const user_id= req.body.user_id;
+
     try{
-        const update = togglePinInDB(parseInt(noteId))
+        const update = togglePinInDB(parseInt(noteId), parseInt(user_id))
 
         if(update === null){
             throw "Could not toggle pin"
