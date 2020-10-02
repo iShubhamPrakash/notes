@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser= require('body-parser')
+require('dotenv').config()
 const {
     pool,
     getNotesFromDB,
@@ -18,7 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.listen(5000,e=>console.log("Running server on http://localhost:5000..."))
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT,e=>console.log(`Running server on http://localhost:${PORT}`))
 
 app.get('/',(req,res)=> res.send("Hello world..."))
 
